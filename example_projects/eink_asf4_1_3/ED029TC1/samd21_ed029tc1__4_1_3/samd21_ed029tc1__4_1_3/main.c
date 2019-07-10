@@ -122,6 +122,7 @@
  *
  * Finally the following line must be added directly below the Atmel START include statement:
  * \code
+ * #define eink_project_excluded
  * #include <atmel_start.h>
  * #include <eink_asf4_1_3.h>
  * \endcode
