@@ -1,5 +1,5 @@
 format_version: '2'
-name: samd21_ed029tc1__4_1_3
+name: samd21_hink-e0154a05__4_1_3
 versions:
   api: '1.0'
   backend: 1.5.122
