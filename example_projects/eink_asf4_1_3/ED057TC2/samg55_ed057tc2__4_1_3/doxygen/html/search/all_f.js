@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['set_5fpixel',['set_pixel',['../structeink__gfx__config.html#a33423e6c56b1a70a34e87ace7d3bc579',1,'eink_gfx_config']]],
+  ['shipping_5fbarcode_2eh',['shipping_barcode.h',['../shipping__barcode_8h.html',1,'']]],
+  ['size_5fof_5fmask',['size_of_mask',['../group__doc__driver__hal__utils__macro.html#gacb24f277663a5c87482fbcdbef5f2bd2',1,'utils.h']]],
+  ['sleep',['sleep',['../group__doc__driver__hal__helper__sleep.html#gab004676b3011ffebede7c473a5cdfccc',1,'sleep(const uint8_t mode):&#160;hal_sleep.c'],['../group__doc__driver__hal__helper__sleep.html#gab004676b3011ffebede7c473a5cdfccc',1,'sleep(const uint8_t mode):&#160;hal_sleep.c']]],
+  ['sleep_5fget_5fversion',['sleep_get_version',['../group__doc__driver__hal__helper__sleep.html#gaab8a7b5dfa992a33c63e63ed98e4b105',1,'sleep_get_version(void):&#160;hal_sleep.c'],['../group__doc__driver__hal__helper__sleep.html#gaab8a7b5dfa992a33c63e63ed98e4b105',1,'sleep_get_version(void):&#160;hal_sleep.c']]],
+  ['soft_5fstart_5fdrive_5fstrength',['soft_start_drive_strength',['../uc8151_8h.html#a820f51150a90d53d757216ab4252818e',1,'uc8151.h']]],
+  ['soft_5fstart_5fmin_5foff_5ftime',['soft_start_min_off_time',['../uc8151_8h.html#a689a33d23f52ed91770db334e59f7a20',1,'uc8151.h']]],
+  ['soft_5fstart_5fperiod',['soft_start_period',['../uc8151_8h.html#a2efffb0e4298f7b0e96ec1dde459ab73',1,'uc8151.h']]],
+  ['ssd1608_2ec',['ssd1608.c',['../ssd1608_8c.html',1,'']]],
+  ['ssd1608_2eh',['ssd1608.h',['../ssd1608_8h.html',1,'']]],
+  ['ssd1608_5fconfig',['ssd1608_config',['../structssd1608__config.html',1,'']]],
+  ['ssd1608_5fget_5fconfig_5fdefaults',['ssd1608_get_config_defaults',['../ssd1608_8h.html#a0f64c15b1971da138cda221a3237de8b',1,'ssd1608.h']]],
+  ['ssd1608_5fhard_5freset',['ssd1608_hard_reset',['../ssd1608_8h.html#aa8ee5a18cda135387be4231eabc01d09',1,'ssd1608.h']]],
+  ['ssd1608_5finit',['ssd1608_init',['../ssd1608_8c.html#a4e676057ad480419bb773d4cacb45d9a',1,'ssd1608.c']]],
+  ['ssd1608_5flut_5fselection',['ssd1608_lut_selection',['../ssd1608_8h.html#a672ca14a1b55b5c4ca488609ec9a02cc',1,'ssd1608.h']]],
+  ['ssd1608_5fmodule',['ssd1608_module',['../structssd1608__module.html',1,'']]],
+  ['ssd1608_5fset_5fconfig',['ssd1608_set_config',['../ssd1608_8c.html#aea2339051e49f5f18da1605140658552',1,'ssd1608_set_config(struct ssd1608_config *const config):&#160;ssd1608.c'],['../ssd1608_8h.html#aea2339051e49f5f18da1605140658552',1,'ssd1608_set_config(struct ssd1608_config *const config):&#160;ssd1608.c']]],
+  ['ssd1608_5fwait_5ffor_5fbusy',['ssd1608_wait_for_busy',['../ssd1608_8h.html#a206f27848bda2755ca6f16f13068e630',1,'ssd1608.h']]],
+  ['startup_5fsamg55j19_2ec',['startup_samg55j19.c',['../startup__samg55j19_8c.html',1,'']]],
+  ['system_5fsamg55j19_2ec',['system_samg55j19.c',['../system__samg55j19_8c.html',1,'']]],
+  ['system_5ftime_5ft',['system_time_t',['../group___h_p_l.html#ga5885ba48297c95f5c8a108cfa02e6e55',1,'hpl_time_measure.h']]],
+  ['systemcoreclock',['SystemCoreClock',['../system__samg55j19_8c.html#aa3cd3e43291e81e795d642b79b6088e6',1,'system_samg55j19.c']]],
+  ['systemcoreclockupdate',['SystemCoreClockUpdate',['../system__samg55j19_8c.html#ae0c36a9591fe6e9c45ecb21a794f0f0f',1,'system_samg55j19.c']]],
+  ['systeminit',['SystemInit',['../system__samg55j19_8c.html#a93f514700ccf00d08dbdcff7f1224eb2',1,'system_samg55j19.c']]]
+];

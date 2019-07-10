@@ -1,0 +1,8 @@
+var searchData=
+[
+  ['init_5fget_5fversion',['init_get_version',['../group__doc__driver__hal__helper__init.html#ga7f3a0a79c14d4043ea30435f561af05f',1,'init_get_version(void):&#160;hal_init.c'],['../group__doc__driver__hal__helper__init.html#ga7f3a0a79c14d4043ea30435f561af05f',1,'init_get_version(void):&#160;hal_init.c']]],
+  ['init_5fmcu',['init_mcu',['../group__doc__driver__hal__helper__init.html#ga396fab6bd3539817c5beb7cde98fbd56',1,'hal_init.h']]],
+  ['io_5fread',['io_read',['../group__doc__driver__hal__helper__io.html#gaf5e8722129933fa8e014144fd7505be6',1,'io_read(struct io_descriptor *const io_descr, uint8_t *const buf, const uint16_t length):&#160;hal_io.c'],['../group__doc__driver__hal__helper__io.html#gaf5e8722129933fa8e014144fd7505be6',1,'io_read(struct io_descriptor *const io_descr, uint8_t *const buf, const uint16_t length):&#160;hal_io.c']]],
+  ['io_5fwrite',['io_write',['../group__doc__driver__hal__helper__io.html#ga81aac60d5ce6feb0c44f8937d7c02f14',1,'io_write(struct io_descriptor *const io_descr, const uint8_t *const buf, const uint16_t length):&#160;hal_io.c'],['../group__doc__driver__hal__helper__io.html#ga81aac60d5ce6feb0c44f8937d7c02f14',1,'io_write(struct io_descriptor *const io_descr, const uint8_t *const buf, const uint16_t length):&#160;hal_io.c']]],
+  ['is_5flist_5felement',['is_list_element',['../group__doc__driver__hal__utils__list.html#ga26022c1362f0fa7e17b734262229c1a7',1,'is_list_element(const struct list_descriptor *const list, const void *const element):&#160;utils_list.c'],['../group__doc__driver__hal__utils__list.html#ga26022c1362f0fa7e17b734262229c1a7',1,'is_list_element(const struct list_descriptor *const list, const void *const element):&#160;utils_list.c']]]
+];
