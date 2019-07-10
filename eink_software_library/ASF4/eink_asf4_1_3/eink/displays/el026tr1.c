@@ -99,21 +99,21 @@ void eink_el026tr1_init(struct uc8151_config *const config, bool clear_display)
 
     /* Initialize the low-level display controller. */
     uc8151_init();
-	
-	/* Automatically set the EL026TR1 variables */
-	config->panel_settings.display_colours = B_W_R_PIXELS;
+    
+    /* Automatically set the EL026TR1 variables */
+    config->panel_settings.display_colours = B_W_R_PIXELS;
 
     /* Configure the UC8151 controller. */
     uc8151_set_config(config);
-	
-	/* Re-configure the display width and height for the EL026TR1 */
-	if((config->panel_settings.display_rotation == ROTATE_90) || (config->panel_settings.display_rotation == ROTATE_270)) {
-		uc8151_global_instance.display_width   = 152;
-		uc8151_global_instance.display_height  = 296;
-	} else {
-		uc8151_global_instance.display_width   = 296;
-		uc8151_global_instance.display_height  = 152;
-	}	
+    
+    /* Re-configure the display width and height for the EL026TR1 */
+    if((config->panel_settings.display_rotation == ROTATE_90) || (config->panel_settings.display_rotation == ROTATE_270)) {
+        uc8151_global_instance.display_width   = 152;
+        uc8151_global_instance.display_height  = 296;
+    } else {
+        uc8151_global_instance.display_width   = 296;
+        uc8151_global_instance.display_height  = 152;
+    }   
     
     /* Set Partial Window settings - not implemented on the EL026TR1 */
     uc8151_global_instance.partial_window_en = PARTIAL_WINDOW_DISABLED;
@@ -184,7 +184,7 @@ void eink_el026tr1_put_display_buffer(bool refresh_display)
  */
 void eink_el026tr1_set_pixel(eink_x_coordinate x_set, eink_y_coordinate y_set, enum eink_pixel_colour pixel_colour)
 {    
-	/** Calls the equivalent function but for the ED029TC1 - avoid code repetition */
+    /** Calls the equivalent function but for the ED029TC1 - avoid code repetition */
     eink_ed029tc1_set_pixel(x_set, y_set, pixel_colour);
 }
 
@@ -210,6 +210,6 @@ void eink_el026tr1_set_pixel(eink_x_coordinate x_set, eink_y_coordinate y_set, e
  */
 void eink_el026tr1_graphics_load_mono_image(uint8_t *img_array, uint16_t array_size, eink_x_coordinate image_width_px, eink_y_coordinate image_height_bytes, eink_x_coordinate x_place, eink_y_coordinate y_place, enum eink_pixel_colour foreground_colour, enum eink_pixel_colour background_colour)
 {
-	/** Calls the equivalent function but for the ED029TC1 - avoid code repetition */
-	eink_ed029tc1_graphics_load_mono_image(img_array, array_size, image_width_px, image_height_bytes, x_place, y_place, foreground_colour, background_colour);
+    /** Calls the equivalent function but for the ED029TC1 - avoid code repetition */
+    eink_ed029tc1_graphics_load_mono_image(img_array, array_size, image_width_px, image_height_bytes, x_place, y_place, foreground_colour, background_colour);
 }

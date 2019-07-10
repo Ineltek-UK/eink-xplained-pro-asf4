@@ -111,23 +111,23 @@ void eink_hink_e0154a05_init(
  */
 static inline void eink_hink_e0154a05_refresh_display_buffer(void)
 {
-	uint8_t eink_data[1];
-	uint8_t temperature_value = 20;
-	
-	if(ssd1608_global_instance.display_config.lut_selection == SSD1608_LUT_REGISTER)
-	{
-		eink_data[0] = 0xC7;
-	} else {
-		eink_data[0] = 0xF7;
-	}
+    uint8_t eink_data[1];
+    uint8_t temperature_value = 20;
+    
+    if(ssd1608_global_instance.display_config.lut_selection == SSD1608_LUT_REGISTER)
+    {
+        eink_data[0] = 0xC7;
+    } else {
+        eink_data[0] = 0xF7;
+    }
 
-	/* Display Update Control 2 */
-	eink_write_data(SSD1608_DUC2, eink_data, 1);
-	ssd1608_wait_for_busy();
-	
-	/* Master Activation */
-	eink_write_data(SSD1608_MA, 0, 0);
-	ssd1608_wait_for_busy();
+    /* Display Update Control 2 */
+    eink_write_data(SSD1608_DUC2, eink_data, 1);
+    ssd1608_wait_for_busy();
+    
+    /* Master Activation */
+    eink_write_data(SSD1608_MA, 0, 0);
+    ssd1608_wait_for_busy();
 }
 
 void eink_hink_e0154a05_put_display_buffer(
@@ -139,16 +139,16 @@ void eink_hink_e0154a05_set_pixel(
         enum eink_pixel_colour pixel_colour);
 
 void eink_hink_e0154a05_graphics_load_mono_image(
-		uint8_t *img_array,
-		uint16_t array_size,
-		eink_x_coordinate image_width_px,
-		eink_y_coordinate image_height_bytes,
-		eink_x_coordinate x_place,
-		eink_y_coordinate y_place,
-		enum eink_pixel_colour foreground_colour,
-		enum eink_pixel_colour background_colour);
-		
-		
+        uint8_t *img_array,
+        uint16_t array_size,
+        eink_x_coordinate image_width_px,
+        eink_y_coordinate image_height_bytes,
+        eink_x_coordinate x_place,
+        eink_y_coordinate y_place,
+        enum eink_pixel_colour foreground_colour,
+        enum eink_pixel_colour background_colour);
+        
+        
 //@}
 
 #ifdef __cplusplus

@@ -149,10 +149,10 @@ void eink_hink_e0154a05_put_display_buffer(bool refresh_display)
     eink_data[0] = 0xC7;
     eink_data[1] = 0x00;
     eink_write_data(SSD1608_RYC, eink_data, 2);
-	
+    
     /* Update the RAM with the display buffer */
-	eink_write_data(SSD1608_WR, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_HINK_E0154A05_DISPLAY_BUFFER_SIZE);
-	ssd1608_wait_for_busy();
+    eink_write_data(SSD1608_WR, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_HINK_E0154A05_DISPLAY_BUFFER_SIZE);
+    ssd1608_wait_for_busy();
     
     if(refresh_display) {
         /* Send the Refresh Display command */
@@ -169,56 +169,56 @@ void eink_hink_e0154a05_put_display_buffer(bool refresh_display)
  */
 void eink_hink_e0154a05_set_pixel(eink_x_coordinate x, eink_y_coordinate y, enum eink_pixel_colour pixel_colour)
 {    
-	eink_x_coordinate x_set, y_set, max_x, max_y;
+    eink_x_coordinate x_set, y_set, max_x, max_y;
     eink_y_coordinate y1_set, x1_set, byte_set;
     uint8_t pixel_set = 1;
-	uint16_t bit_set;
+    uint16_t bit_set;
     
     if (pixel_colour == PIXEL_BLACK) pixel_set = 0;
     else if (pixel_colour == PIXEL_WHITE) pixel_set = 1;
-	
+    
     switch(ssd1608_global_instance.display_config.display_rotation)
-	{
-		case ROTATE_0:
-			y_set = x;
-			x_set = ssd1608_global_instance.display_height - y;
-			
-			max_x = ssd1608_global_instance.display_height;
-			max_y = ssd1608_global_instance.display_width;
-			break;
-		case ROTATE_90:
-			x_set = ssd1608_global_instance.display_width - x;
-			y_set = ssd1608_global_instance.display_height - y;
-			
-			max_x = ssd1608_global_instance.display_width;
-			max_y = ssd1608_global_instance.display_height;
-			break;
-		case ROTATE_180:
-			y_set = ssd1608_global_instance.display_width - x;
-			x_set = y;
-			
-			max_x = ssd1608_global_instance.display_height;
-			max_y = ssd1608_global_instance.display_width;
-			break;
-		case ROTATE_270:
-			x_set = x;
-			y_set = y;
-			
-			max_x = ssd1608_global_instance.display_width;
-			max_y = ssd1608_global_instance.display_height;
-			break;
-	}
-	/* Ignore any pixels being set outside of the display window */
-	if ( (x_set >= 0) && (x_set < max_x) && (y_set >= 0) && (y_set < max_y) ) {
-		/* Calculate which byte the pixel in question is contained in */
-		y1_set = ((y_set - (y_set % 8)) / 8);
-		byte_set = (((x_set + 1) * 25) - 1 - y1_set);
-		/* Calculate which bit in that byte the pixel in question is */
-		bit_set = (y_set % 8);
-	
-		/* Set the NEW display buffer */
-		eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set, pixel_set);
-	}
+    {
+        case ROTATE_0:
+            y_set = x;
+            x_set = ssd1608_global_instance.display_height - y;
+            
+            max_x = ssd1608_global_instance.display_height;
+            max_y = ssd1608_global_instance.display_width;
+            break;
+        case ROTATE_90:
+            x_set = ssd1608_global_instance.display_width - x;
+            y_set = ssd1608_global_instance.display_height - y;
+            
+            max_x = ssd1608_global_instance.display_width;
+            max_y = ssd1608_global_instance.display_height;
+            break;
+        case ROTATE_180:
+            y_set = ssd1608_global_instance.display_width - x;
+            x_set = y;
+            
+            max_x = ssd1608_global_instance.display_height;
+            max_y = ssd1608_global_instance.display_width;
+            break;
+        case ROTATE_270:
+            x_set = x;
+            y_set = y;
+            
+            max_x = ssd1608_global_instance.display_width;
+            max_y = ssd1608_global_instance.display_height;
+            break;
+    }
+    /* Ignore any pixels being set outside of the display window */
+    if ( (x_set >= 0) && (x_set < max_x) && (y_set >= 0) && (y_set < max_y) ) {
+        /* Calculate which byte the pixel in question is contained in */
+        y1_set = ((y_set - (y_set % 8)) / 8);
+        byte_set = (((x_set + 1) * 25) - 1 - y1_set);
+        /* Calculate which bit in that byte the pixel in question is */
+        bit_set = (y_set % 8);
+    
+        /* Set the NEW display buffer */
+        eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set, pixel_set);
+    }
 }
 
 /**

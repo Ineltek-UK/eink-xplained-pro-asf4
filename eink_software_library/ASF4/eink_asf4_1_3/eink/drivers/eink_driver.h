@@ -261,11 +261,11 @@ static void eink_interface_init(uint8_t f_init)
     gpio_set_pin_function(EINK_CSB, GPIO_PIN_FUNCTION_OFF);
     gpio_set_pin_function(EINK_DC, GPIO_PIN_FUNCTION_OFF);
     gpio_set_pin_function(EINK_RST, GPIO_PIN_FUNCTION_OFF);
-	
-	gpio_set_pin_function(EINK_SPI_SDA, GPIO_PIN_FUNCTION_OFF);
-	gpio_set_pin_function(EINK_SPI_SCL, GPIO_PIN_FUNCTION_OFF);
-	
-	gpio_set_pin_function(EINK_BUSY, GPIO_PIN_FUNCTION_OFF);
+    
+    gpio_set_pin_function(EINK_SPI_SDA, GPIO_PIN_FUNCTION_OFF);
+    gpio_set_pin_function(EINK_SPI_SCL, GPIO_PIN_FUNCTION_OFF);
+    
+    gpio_set_pin_function(EINK_BUSY, GPIO_PIN_FUNCTION_OFF);
 }
 
 /** \name Eink display driver data transfer functions.

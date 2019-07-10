@@ -193,7 +193,7 @@ void eink_ed029tc1_set_pixel(eink_x_coordinate x_set, eink_y_coordinate y_set, e
 {    
     uint32_t y1_set, x1_set, byte_set;
     uint8_t bit_set, pixel_set_1 = 1, pixel_set_2 = 1;
-	uint8_t height_bytes = uc8151_global_instance.display_height / 8;
+    uint8_t height_bytes = uc8151_global_instance.display_height / 8;
     
     /* Ignore any pixels being set outside of the display window */
     if ( (x_set >= 0) && (x_set < uc8151_global_instance.display_width) && (y_set >= 0) && (y_set < uc8151_global_instance.display_height) ) {

@@ -129,7 +129,7 @@ enum ssd1608_lut_selection {
  */
 struct ssd1608_config {
     enum eink_display_rotation                  display_rotation;
-	enum ssd1608_lut_selection                  lut_selection;
+    enum ssd1608_lut_selection                  lut_selection;
 };
 
 /**
@@ -141,8 +141,8 @@ struct ssd1608_config {
  *       application; they are reserved for module-internal use only.
  */
 struct ssd1608_module {
-	/** Display configuration */
-	struct ssd1608_config                       display_config;
+    /** Display configuration */
+    struct ssd1608_config                       display_config;
     /** Display width */
     eink_x_coordinate                           display_width;
     /** Display height */
@@ -194,8 +194,8 @@ static inline void ssd1608_get_config_defaults(
         struct ssd1608_config *const config)
 {
     /* Default configuration values */
-	config->display_rotation = ROTATE_0;
-	config->lut_selection = SSD1608_LUT_OTP;
+    config->display_rotation = ROTATE_0;
+    config->lut_selection = SSD1608_LUT_OTP;
 }
 
 void ssd1608_set_config(

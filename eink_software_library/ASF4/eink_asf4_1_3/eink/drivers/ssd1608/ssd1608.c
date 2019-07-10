@@ -73,8 +73,8 @@
 //! \name SSD1608 Instant Update waveform
 //@{
 const uint8_t SSD1608_IU_LUT[]={
-	0x10, 0x18, 0x18, 0x28, 0x18, 0x18, 0x18, 0x18, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x33, 0x12, 0x22, 0x13, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00
+    0x10, 0x18, 0x18, 0x28, 0x18, 0x18, 0x18, 0x18, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x33, 0x12, 0x22, 0x13, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 //@}
 
@@ -111,75 +111,75 @@ void ssd1608_init(void)
 void ssd1608_set_config(
         struct ssd1608_config *const config)
 {
-	uint8_t eink_data[5];
-	
-	/* Save display resolution and rotation into SSD1608 instance */
-	ssd1608_global_instance.display_config = *config;
-	ssd1608_global_instance.display_width   = 200;
-	ssd1608_global_instance.display_height  = 200;
-	
-	/* Gate Driving Voltage */
-	eink_data[0] = 0xEA;
-	eink_write_data(SSD1608_GDV, eink_data, 1);
+    uint8_t eink_data[5];
+    
+    /* Save display resolution and rotation into SSD1608 instance */
+    ssd1608_global_instance.display_config = *config;
+    ssd1608_global_instance.display_width   = 200;
+    ssd1608_global_instance.display_height  = 200;
+    
+    /* Gate Driving Voltage */
+    eink_data[0] = 0xEA;
+    eink_write_data(SSD1608_GDV, eink_data, 1);
 
-	/* Source Driving Voltage */
-	eink_data[0] = 0x0A;
-	eink_write_data(SSD1608_SDV, eink_data, 1);
+    /* Source Driving Voltage */
+    eink_data[0] = 0x0A;
+    eink_write_data(SSD1608_SDV, eink_data, 1);
 
-	/* Set Gate Line Width */
-	eink_data[0] = 0x0B;
-	eink_write_data(SSD1608_GLW, eink_data, 1);
+    /* Set Gate Line Width */
+    eink_data[0] = 0x0B;
+    eink_write_data(SSD1608_GLW, eink_data, 1);
 
-	/* Border Waveform Control */
-	eink_data[0] = 0x33;
-	eink_write_data(SSD1608_BWC, eink_data, 1);
+    /* Border Waveform Control */
+    eink_data[0] = 0x33;
+    eink_write_data(SSD1608_BWC, eink_data, 1);
 
-	/* Driver Output Control */
-	eink_data[0] = 0xC7;
-	eink_data[1] = 0x00;
-	eink_data[2] = 0x00;
-	eink_write_data(SSD1608_DOC, eink_data, 3);
+    /* Driver Output Control */
+    eink_data[0] = 0xC7;
+    eink_data[1] = 0x00;
+    eink_data[2] = 0x00;
+    eink_write_data(SSD1608_DOC, eink_data, 3);
 
-	/* Booster Soft Start Control */
-	eink_data[0] = 0xD7;
-	eink_data[1] = 0xD6;
-	eink_data[2] = 0x9D;
-	eink_write_data(SSD1608_BSSC, eink_data, 3);
+    /* Booster Soft Start Control */
+    eink_data[0] = 0xD7;
+    eink_data[1] = 0xD6;
+    eink_data[2] = 0x9D;
+    eink_write_data(SSD1608_BSSC, eink_data, 3);
 
-	/* Write VCOM value */
-	eink_data[0] = 0x7D;
-	eink_write_data(SSD1608_WVCOM, eink_data, 1);
+    /* Write VCOM value */
+    eink_data[0] = 0x7D;
+    eink_write_data(SSD1608_WVCOM, eink_data, 1);
 
-	/* Set Dummy Line Period */
-	eink_data[0] = 0x12;
-	eink_write_data(SSD1608_DLP, eink_data, 1);
+    /* Set Dummy Line Period */
+    eink_data[0] = 0x12;
+    eink_write_data(SSD1608_DLP, eink_data, 1);
 
-	/* Data Entry Mode Setting */
-	eink_data[0] = 0x00;
-	eink_write_data(SSD1608_DEM, eink_data, 1);
-	
-	/* Set RAM X Start Position */
-	eink_data[0] = 0x18;
-	eink_data[1] = 0x00;
-	eink_write_data(SSD1608_RXAS, eink_data, 2);
+    /* Data Entry Mode Setting */
+    eink_data[0] = 0x00;
+    eink_write_data(SSD1608_DEM, eink_data, 1);
+    
+    /* Set RAM X Start Position */
+    eink_data[0] = 0x18;
+    eink_data[1] = 0x00;
+    eink_write_data(SSD1608_RXAS, eink_data, 2);
 
-	/* Set RAM Y Start Position */
-	eink_data[0] = 0xC7;
-	eink_data[1] = 0x00;
-	eink_data[2] = 0x00;
-	eink_data[3] = 0x00;
-	eink_write_data(SSD1608_RYAS, eink_data, 4);
-	
-	/* Set RAM X Address Counter */
-	eink_data[0] = 0x18;
-	eink_write_data(SSD1608_RXC, eink_data, 1);
-	
-	/* Set RAM Y Address Counter */
-	eink_data[0] = 0xC7;
-	eink_data[1] = 0x00;
-	eink_write_data(SSD1608_RYC, eink_data, 2);
-	
-	/* Upload Instant Update LUT */
-	eink_write_data(SSD1608_WLUT, SSD1608_IU_LUT, 30);
-	ssd1608_wait_for_busy();
+    /* Set RAM Y Start Position */
+    eink_data[0] = 0xC7;
+    eink_data[1] = 0x00;
+    eink_data[2] = 0x00;
+    eink_data[3] = 0x00;
+    eink_write_data(SSD1608_RYAS, eink_data, 4);
+    
+    /* Set RAM X Address Counter */
+    eink_data[0] = 0x18;
+    eink_write_data(SSD1608_RXC, eink_data, 1);
+    
+    /* Set RAM Y Address Counter */
+    eink_data[0] = 0xC7;
+    eink_data[1] = 0x00;
+    eink_write_data(SSD1608_RYC, eink_data, 2);
+    
+    /* Upload Instant Update LUT */
+    eink_write_data(SSD1608_WLUT, SSD1608_IU_LUT, 30);
+    ssd1608_wait_for_busy();
 }

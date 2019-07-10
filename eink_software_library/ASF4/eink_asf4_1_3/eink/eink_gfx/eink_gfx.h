@@ -87,8 +87,8 @@ extern "C" {
  * display is currently in use. 
  */
 enum eink_gfx_display_select {
-	GFX_EL026TR1,
-	GFX_ED029TC1,
+    GFX_EL026TR1,
+    GFX_ED029TC1,
     GFX_HINK_E0154A05,
     GFX_ED057TC2
 };
@@ -100,7 +100,7 @@ enum eink_pixel_colour {
      PIXEL_BLACK,
      PIXEL_WHITE,
      PIXEL_RED,
-	 PIXEL_YELLOW,
+     PIXEL_YELLOW,
      PIXEL_NONE
 };
 
@@ -111,7 +111,7 @@ enum eink_fill_type {
      FILL_BLACK,
      FILL_WHITE,
      FILL_RED,
-	 FILL_YELLOW,
+     FILL_YELLOW,
      FILL_NONE
 };
 
