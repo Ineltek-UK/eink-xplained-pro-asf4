@@ -297,7 +297,7 @@ void eink_ed029tc1_graphics_load_mono_image(uint8_t *img_array, uint16_t array_s
         /* Scan pixels by column */
         for (i = 0; i < image_width_px; i++) {
             m = 0;
-            for (j = (image_height_bytes-1); j > 0; j--) {
+            for (j = (image_height_bytes-1); j >= 0; j--) {
                 /* Process each pixel in byte  */
                 l = 7;
                 for (k = 0; k < 8; k++) {
