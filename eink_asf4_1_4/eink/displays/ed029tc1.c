@@ -297,15 +297,15 @@ void eink_ed029tc1_graphics_load_mono_image(uint8_t *img_array, uint16_t array_s
         /* Scan pixels by column */
         for (i = 0; i < image_width_px; i++) {
             m = 0;
-            for (j = (image_height_bytes-1); j >= 0; j--) {
+            for (j = image_height_bytes; j > 0; j--) {
                 /* Process each pixel in byte  */
                 l = 7;
                 for (k = 0; k < 8; k++) {
                     
-                    bit_value = ((img_array[(i*image_height_bytes)+j] >> k) & 0x1);
+                    bit_value = ((img_array[(i*image_height_bytes)+j-1] >> k) & 0x1);
                     if(bit_value) {
                         if(foreground_colour != PIXEL_NONE) gfx_eink_set_pixel((x_place+i), (y_place+(m*8)+k), foreground_colour);
-                        } else {
+                    } else {
                         if(background_colour != PIXEL_NONE) gfx_eink_set_pixel((x_place+i), (y_place+(m*8)+k), background_colour);
                     }
                     l--;
