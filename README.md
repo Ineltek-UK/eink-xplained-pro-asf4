@@ -12,6 +12,7 @@ This software library is designed to work with the following displays and driver
 - ED057TC2 : UC8159
 - HINK-E0154A05 : SSD1608
 - HINK-E0154A45 : SSD1608
+- IT8951
 
 > Note that displays may use alternative, but compatible driver ICs.
 
@@ -33,4 +34,4 @@ The folder structure should be maintained after download as the example projects
 
 ## Compilation Information
 
-This software was written for the GNU GCC compiler using Atmel Studio 7.0 and requires ASF version 4 (originally compiled from Atmel START version 1.6.1881). Other compilers may or may not work.
+This software was written for the GNU GCC compiler using Atmel Studio 7.0 and requires ASF version 4 (originally compiled from Atmel START version 1.7.279). Other compilers may or may not work.
