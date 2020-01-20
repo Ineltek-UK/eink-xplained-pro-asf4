@@ -105,7 +105,7 @@ void _gfx_eink_text_write_character(char character, eink_coordinate start_x, ein
     }
     
     /* Ensure the chosen character is still in the font array */
-    if( (start_font_index + (*font_character_size_map_ptr * eink_font.font_height_bytes) ) < eink_font.font_array_size) {
+    if( (start_font_index + (*font_character_size_map_ptr * eink_font.font_height_bytes) ) < (eink_font.font_array_size + (eink_font.font_character_size_map_ptr[current_char_index] * eink_font.font_height_bytes) )) {
         
         /* Move the pointer to the character starting byte */
         font_array_ptr = (uint8_t*) eink_font.font_array_ptr;
