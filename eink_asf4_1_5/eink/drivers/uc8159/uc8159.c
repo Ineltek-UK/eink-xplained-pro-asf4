@@ -213,14 +213,17 @@ void uc8159_set_config(
         //Error, invalid Internal VGH/VGL voltage level selection.
         while(1);   
     }
-        
+    /*
     eink_data[2] = 0x05;
     eink_data[3] = 0x05;
+	*/
+    eink_data[2] = 0x23;
+    eink_data[3] = 0x23;
     /* Send the PWR register to the display */
     eink_write_data(UC8159_PWR, eink_data, 4);
     
-    eink_data[0] = 0x03;
-    eink_write_data(UC8159_TSSET, eink_data, 1);
+    //eink_data[0] = 0x03;
+    //eink_write_data(UC8159_TSSET, eink_data, 1);
     
     /* Translate the power off sequence structure to the required byte to be sent to the display */
     switch (config->power_off_sequence) {
@@ -238,6 +241,16 @@ void uc8159_set_config(
     eink_data[1] = 0xCC;
     /* Send the default booster soft start structure (phase C) to the display */
     eink_data[2] = 0x28;
+	
+	/* Colour */
+    /* Send the default booster soft start structure (phase A) to the display */
+    eink_data[0] = 0xC7;
+    /* Send the default booster soft start structure (phase B) to the display */
+    eink_data[1] = 0xC7;
+    /* Send the default booster soft start structure (phase C) to the display */
+    eink_data[2] = 0x1D;
+	
+	
     /* Send the BTST register to the display */
     eink_write_data(UC8159_BTST, eink_data, 3);
     
@@ -264,6 +277,7 @@ void uc8159_set_config(
         eink_data[0] |= (config->temperature_sensor_settings.temperature_offset & 0x0F);
     }
     /* Send the TSE register to the display */
+	eink_data[0] = 0x00; /* Colour */
     eink_write_data(UC8159_TSE, eink_data, 1);
     
     eink_data[0] = 0x37;
@@ -273,10 +287,22 @@ void uc8159_set_config(
     eink_write_data(UC8159_TCON, eink_data, 1);
     
     /* Disable external flash */
-    eink_data[0] = 0x00;
-    eink_write_data(UC8159_DAM, eink_data, 1);
+    //eink_data[0] = 0x00;
+    //eink_write_data(UC8159_DAM, eink_data, 1);
     
-    uc8159_measure_vcom();
+	
+    
+    eink_data[0] = 0x02;
+    eink_data[1] = 0x58;
+    eink_data[2] = 0x01;
+    eink_data[3] = 0xC0;
+    eink_write_data(UC8159_TRES, eink_data, 1);
+	
+    /* Colour */
+    eink_data[0] = 0xAA;
+    eink_write_data(UC8159_PWS, eink_data, 1);
+    
+    //uc8159_measure_vcom();
 }
 
 /**
@@ -361,7 +387,12 @@ void uc8159_set_psr_config(
         case RES_640x448:               eink_data[0] = 0x02; break;
         case RES_600x448:               eink_data[0] = 0x03; break;
     }
-    eink_data[0] = eink_data[0] << 4;
+	
+	/* Colour */
+    eink_data[0] = eink_data[0] << 1;
+	eink_data[0] |= 1;
+    eink_data[0] = eink_data[0] << 3;
+	/* eink_data[0] = eink_data[0] << 4; */
 
     switch (psr_config->display_rotation) {
         case ROTATE_0:                  eink_data[0] |= 0b11; break;
@@ -377,6 +408,10 @@ void uc8159_set_psr_config(
     eink_data[0] = eink_data[0] << 1;
     /* Add the soft reset bit */
     eink_data[0] |= 0x01;
+	
+	/* Colour */
+    eink_data[1] = 0x08;
     /* Send the PSR register to the display */
-    eink_write_data(UC8159_PSR, eink_data, 1);
+    eink_write_data(UC8159_PSR, eink_data, 2);
+    //eink_write_data(UC8159_PSR, eink_data, 1);
 }

@@ -364,6 +364,7 @@
     #include <eink/displays/hink_e0154a05.c>
     #include <eink/displays/hink_e0154a45.c>
     #include <eink/drivers/uc8159/uc8159.c>
+    #include <eink/displays/ac057tc1.c>
     #include <eink/displays/ed057tc2.c>
     #include <eink/drivers/uc8177/uc8177.c>
     #include <eink/displays/ed028tc1.c>
@@ -382,6 +383,7 @@
     #include <eink/drivers/ssd1608/ssd1608.h>
     #include <eink/displays/hink_e0154a05.h>
     #include <eink/drivers/uc8159/uc8159.h>
+    #include <eink/displays/ac057tc1.h>
     #include <eink/displays/ed057tc2.h>
     #include <eink/drivers/uc8177/uc8177.h>
     #include <eink/displays/ed028tc1.h>
