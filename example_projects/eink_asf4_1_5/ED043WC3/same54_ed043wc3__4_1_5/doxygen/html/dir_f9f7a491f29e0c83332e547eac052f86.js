@@ -1,4 +1,0 @@
-var dir_f9f7a491f29e0c83332e547eac052f86 =
-[
-    [ "same54_ed043wc3__4_1_5", "dir_8609905ce49d564d087f79a32bf8987a.html", "dir_8609905ce49d564d087f79a32bf8987a" ]
-];
