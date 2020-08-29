@@ -75,7 +75,7 @@
  * Used to load the GFX config structure with ED037TC1 information and map
  * the display specific functions.
  */
-struct eink_gfx_config eink_gfx_ed037tc1_config = { GFX_ED037TC1, GFX_ED037TC1_MAX_WIDTH, GFX_ED037TC1_MAX_HEIGHT, GFX_ED037TC1_DISPLAY_BUFFER_SIZE, ROTATE_0, 0, 0, eink_ed037tc1_refresh_display_buffer, 0, 0, eink_ed037tc1_put_display_buffer, 0, eink_ed037tc1_set_pixel, 0, eink_ed037tc1_graphics_load_mono_image, 0 };
+struct eink_gfx_config eink_gfx_ed037tc1_config = { GFX_ED037TC1, GFX_ED037TC1_MAX_WIDTH, GFX_ED037TC1_MAX_HEIGHT, GFX_ED037TC1_DISPLAY_BUFFER_SIZE, ROTATE_0, 0, 0, eink_ed037tc1_refresh_display_buffer, 0, 0, eink_ed037tc1_put_display_buffer, eink_ed037tc1_put_partial_display_buffer, eink_ed037tc1_set_pixel, 0, eink_ed037tc1_graphics_load_mono_image, 0 };
     
 /**
  * \brief Initialize UC8159 controller and Eink display.
@@ -168,6 +168,78 @@ void eink_ed037tc1_put_display_buffer(bool refresh_display)
     }
 }
 
+/*
+    Update window 
+    SSD1677_X_ADDR (0x44) - Specifies start and end address of the update window in the X direction 
+    SSD1677_Y_ADDR (0x45) - Specifies start and end address of the update window in the Y direction
+        Data[4] = Start[7:0], Start[9:8], End[7:0], End[9:8]
+    
+    RAM Buffer Address
+    SSD1677_X_ADDRC (0x4E) - Specifies location in RAM for starting address counter in the X direction
+    SSD1677_Y_ADDRC (0x4F) - Specifies location in RAM for starting address counter in the Y direction
+        Data[4] = Address[7:0], Address[9:8]
+    */
+void eink_ed037tc1_put_partial_display_buffer(eink_coordinate start_x, eink_coordinate start_y, eink_coordinate window_w, eink_coordinate window_h)
+{
+	uint8_t eink_data[4], mod_calc;
+    uint16_t i, temp_y;
+    uint32_t x1_set, y1_set, byte_set;
+	eink_coordinate window_set_x, window_set_y, window_set_w, window_set_h;
+    
+    /* Calculate which byte the pixel in question is contained in */
+	if (ssd1677_global_instance.panel_settings.display_rotation == ROTATE_90) {
+		y1_set = ((GFX_ED037TC1_MAX_WIDTH / 8) - 1) - (((start_y + window_h) - ((start_y + window_h) % 8)) / 8);
+		byte_set = y1_set + ((GFX_ED037TC1_MAX_WIDTH/8) * (start_x));		
+		
+		window_set_x = (GFX_ED037TC1_MAX_WIDTH - start_y - window_h);
+		window_set_y = start_x;
+		
+		window_set_w = window_h;
+		window_set_h = window_w;
+    } else if (ssd1677_global_instance.panel_settings.display_rotation == ROTATE_180) {
+        x1_set = (GFX_ED037TC1_MAX_WIDTH - 1) - ((start_x - (start_x % 8)) / 8);
+        byte_set = ( ((GFX_ED037TC1_MAX_HEIGHT - 1) * (GFX_ED037TC1_MAX_WIDTH/8)) - (start_y * (GFX_ED037TC1_MAX_WIDTH/8)) + x1_set );
+        mod_calc = start_x;
+    } else if (ssd1677_global_instance.panel_settings.display_rotation == ROTATE_270) {
+        y1_set = (start_y - (start_y % 8)) / 8;
+        byte_set = ( ((GFX_ED037TC1_MAX_HEIGHT - 1) * (GFX_ED037TC1_MAX_WIDTH/8)) - (start_y * (GFX_ED037TC1_MAX_WIDTH/8)) + y1_set );
+        mod_calc = start_y;
+    } else{
+        x1_set = (start_x - (start_x % 8)) / 8;
+        byte_set = x1_set + ((GFX_ED037TC1_MAX_WIDTH/8) * start_y);
+        mod_calc = start_x;
+		
+		window_set_x = start_x;
+		window_set_y = start_y;
+		
+		window_set_w = window_w;
+		window_set_h = window_h;
+    }
+    
+    uint8_t* display_buffer;
+    display_buffer = (uint8_t*) ptr_eink_gfx_config->display_buffer_1_ptr;
+    display_buffer += byte_set;
+        
+    for(i=0; i<window_set_h; i++)
+    {
+	    // setting initial counter of X direction in RAM
+	    eink_data[0] = (window_set_x & 0xFF);
+	    eink_data[1] = (window_set_x >> 8) & 0x3;
+	    eink_write_data(SSD1677_X_ADDRC, eink_data, 2);
+
+	    // setting initial counter of Y direction in RAM
+	    temp_y = window_set_y + i;
+	    eink_data[0] = (temp_y & 0xFF);
+	    eink_data[1] = (temp_y >> 8) & 0x3;
+	    eink_write_data(SSD1677_Y_ADDRC, eink_data, 2);
+	    
+	    display_buffer += (GFX_ED037TC1_MAX_WIDTH / 8);
+	    
+	    /* Update the B/W RAM register with the display buffer */
+	    eink_write_data(SSD1677_RAM_BW, display_buffer, ((window_set_w + ((mod_calc % 8==0)?0:8))/8));
+    }
+}
+
 /**
  * \brief Set a specified pixel in the display buffer based an x and a y coordinate.
  *
@@ -184,22 +256,18 @@ void eink_ed037tc1_set_pixel(eink_coordinate x_set, eink_coordinate y_set, enum 
     if ( (x_set >= 0) && (x_set < ssd1677_global_instance.display_width) && (y_set >= 0) && (y_set < ssd1677_global_instance.display_height) ) {
         
         if (ssd1677_global_instance.panel_settings.display_rotation == ROTATE_90) {
-            /* Calculate which byte the pixel in question is contained in */
             y1_set = ((GFX_ED037TC1_MAX_WIDTH / 8) - 1) - ((y_set - (y_set % 8)) / 8);
             byte_set = y1_set + ((GFX_ED037TC1_MAX_WIDTH/8) * (x_set));
             bit_set = y_set % 8;
         } else if (ssd1677_global_instance.panel_settings.display_rotation == ROTATE_180) {
-            /* Calculate which byte the pixel in question is contained in */
             x1_set = (GFX_ED037TC1_MAX_WIDTH - 1) - ((x_set - (x_set % 8)) / 8);
             byte_set = ( ((GFX_ED037TC1_MAX_HEIGHT - 1) * (GFX_ED037TC1_MAX_WIDTH/8)) - (y_set * (GFX_ED037TC1_MAX_WIDTH/8)) + x1_set );
             bit_set = x_set % 8;
         } else if (ssd1677_global_instance.panel_settings.display_rotation == ROTATE_270) {
-            /* Calculate which byte the pixel in question is contained in */
             y1_set = (y_set - (y_set % 8)) / 8;
             byte_set = ( ((GFX_ED037TC1_MAX_HEIGHT - 1) * (GFX_ED037TC1_MAX_WIDTH/8)) - (x_set * (GFX_ED037TC1_MAX_WIDTH/8)) + y1_set );
             bit_set = 7 - (y_set % 8);
         } else{
-            /* Calculate which byte the pixel in question is contained in */
             x1_set = (x_set - (x_set % 8)) / 8;
             byte_set = x1_set + ((GFX_ED037TC1_MAX_WIDTH/8) * y_set);
             bit_set = 7 - (x_set % 8);

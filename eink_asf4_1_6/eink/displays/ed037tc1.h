@@ -128,6 +128,12 @@ static inline void eink_ed037tc1_refresh_display_buffer(void)
 void eink_ed037tc1_put_display_buffer(
         bool refresh_display);
 
+void eink_ed037tc1_put_partial_display_buffer(
+        eink_coordinate start_x,
+        eink_coordinate start_y,
+        eink_coordinate window_w,
+        eink_coordinate window_h);
+
 void eink_ed037tc1_set_pixel(
         eink_coordinate x_set,
         eink_coordinate y_set,
