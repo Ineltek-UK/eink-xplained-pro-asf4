@@ -181,7 +181,7 @@ void eink_ed037tc1_put_display_buffer(bool refresh_display)
     */
 void eink_ed037tc1_put_partial_display_buffer(eink_coordinate start_x, eink_coordinate start_y, eink_coordinate window_w, eink_coordinate window_h)
 {
-	uint8_t eink_data[4], mod_calc;
+	uint8_t eink_data[4], mod_calc_x, mod_calc_w;
     uint16_t i, temp_y;
     uint32_t x1_set, y1_set, byte_set;
 	eink_coordinate window_set_x, window_set_y, window_set_w, window_set_h;
@@ -189,30 +189,32 @@ void eink_ed037tc1_put_partial_display_buffer(eink_coordinate start_x, eink_coor
     /* Calculate which byte the pixel in question is contained in */
 	if (ssd1677_global_instance.panel_settings.display_rotation == ROTATE_90) {
 		y1_set = ((GFX_ED037TC1_MAX_WIDTH / 8) - 1) - (((start_y + window_h) - ((start_y + window_h) % 8)) / 8);
-		byte_set = y1_set + ((GFX_ED037TC1_MAX_WIDTH/8) * (start_x));		
+		byte_set = y1_set + ((GFX_ED037TC1_MAX_WIDTH/8) * (start_x));
+		mod_calc_x = start_y;		
 		
 		window_set_x = (GFX_ED037TC1_MAX_WIDTH - start_y - window_h);
 		window_set_y = start_x;
 		
-		window_set_w = window_h;
+		window_set_w = window_h / 8;
 		window_set_h = window_w;
     } else if (ssd1677_global_instance.panel_settings.display_rotation == ROTATE_180) {
         x1_set = (GFX_ED037TC1_MAX_WIDTH - 1) - ((start_x - (start_x % 8)) / 8);
         byte_set = ( ((GFX_ED037TC1_MAX_HEIGHT - 1) * (GFX_ED037TC1_MAX_WIDTH/8)) - (start_y * (GFX_ED037TC1_MAX_WIDTH/8)) + x1_set );
-        mod_calc = start_x;
+        mod_calc_x = start_x;
     } else if (ssd1677_global_instance.panel_settings.display_rotation == ROTATE_270) {
         y1_set = (start_y - (start_y % 8)) / 8;
         byte_set = ( ((GFX_ED037TC1_MAX_HEIGHT - 1) * (GFX_ED037TC1_MAX_WIDTH/8)) - (start_y * (GFX_ED037TC1_MAX_WIDTH/8)) + y1_set );
-        mod_calc = start_y;
+        mod_calc_x = start_y;
     } else{
         x1_set = (start_x - (start_x % 8)) / 8;
         byte_set = x1_set + ((GFX_ED037TC1_MAX_WIDTH/8) * start_y);
-        mod_calc = start_x;
+        mod_calc_x = (start_x - (start_x % 8));
+        mod_calc_w = 8 - (window_w % 8);
 		
 		window_set_x = start_x;
 		window_set_y = start_y;
 		
-		window_set_w = window_w;
+		window_set_w = (window_w + mod_calc_x + mod_calc_w) / 8;
 		window_set_h = window_h;
     }
     
@@ -236,7 +238,7 @@ void eink_ed037tc1_put_partial_display_buffer(eink_coordinate start_x, eink_coor
 	    display_buffer += (GFX_ED037TC1_MAX_WIDTH / 8);
 	    
 	    /* Update the B/W RAM register with the display buffer */
-	    eink_write_data(SSD1677_RAM_BW, display_buffer, ((window_set_w + ((mod_calc % 8==0)?0:8))/8));
+	    eink_write_data(SSD1677_RAM_BW, display_buffer, window_set_w);
     }
 }
 
