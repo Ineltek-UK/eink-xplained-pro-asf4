@@ -1,0 +1,7 @@
+[0714/121304:ERROR:ipc_channel_win.cc(512)] pipe error: 232
+[0714/160930:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0714/160935:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0714/211434:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0714/213559:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0714/213604:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0715/063333:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.

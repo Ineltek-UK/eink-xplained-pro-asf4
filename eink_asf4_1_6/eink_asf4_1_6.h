@@ -356,6 +356,8 @@
     #include <eink/drivers/eink_driver.c>
     #include <eink/drivers/eink_ite_driver.c>
 
+	#include <eink/drivers/uc8173/uc8173.c>
+	//ED013TC1.c
     #include <eink/drivers/uc8151/uc8151.c>
     #include <eink/displays/ed029tc1.c>
     #include <eink/displays/el026tr1.c>
@@ -378,6 +380,8 @@
     #include <eink/drivers/eink_driver.h>
     #include <eink/drivers/eink_ite_driver.h>
 
+	#include <eink/drivers/uc8173/uc8173.h>
+	//ED013TC1.h
     #include <eink/drivers/uc8151/uc8151.h>
     #include <eink/displays/ed029tc1.h>
     #include <eink/displays/el026tr1.h>

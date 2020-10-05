@@ -192,6 +192,9 @@ void eink_ed037tc1_put_partial_display_buffer(eink_coordinate start_x, eink_coor
 		byte_set = y1_set + ((GFX_ED037TC1_MAX_WIDTH/8) * (start_x));
 		mod_calc_x = start_y;		
 		
+		//(start_y - (start_y % 8))
+		//(start_y + (8 - (start_y % 8)))
+		
 		window_set_x = (GFX_ED037TC1_MAX_WIDTH - start_y - window_h);
 		window_set_y = start_x;
 		
