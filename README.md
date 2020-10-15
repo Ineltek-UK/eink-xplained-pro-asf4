@@ -6,6 +6,7 @@ Eink Xplained Pro ASF4 Software Library (version 1.6) with example projects for 
 
 This software library is designed to work with the following displays and driver ICs libraries:
 
+- ED013TC1 : UC8173
 - EL026TR1 : UC8151
 - ED028TC1 : UC8177
 - ED029TC1 : UC8151
@@ -35,4 +36,4 @@ The folder structure should be maintained after download as the example projects
 
 ## Compilation Information
 
-This software was written for the GNU GCC compiler using Atmel Studio 7.0 and requires ASF version 4 (originally compiled from Atmel START version 1.7.391). Other compilers may or may not work.
+This software was written for the GNU GCC compiler using Atmel Studio 7.0 and requires ASF version 4 (originally compiled from Atmel START version 1.8.449). Other compilers may or may not work.

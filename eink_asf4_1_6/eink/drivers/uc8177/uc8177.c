@@ -160,7 +160,6 @@ void uc8177_set_config(
     eink_data[0] = 0x00; /* Internal Sensor Enabled */
     eink_write_data(UC8177_TSE, eink_data, 1);
 
-
     /* VCOM & DI Settings */
     eink_data[0] = 0x21;
     eink_data[1] = 0x22;

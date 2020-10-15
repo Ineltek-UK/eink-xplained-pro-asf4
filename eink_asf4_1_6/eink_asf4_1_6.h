@@ -2,7 +2,7 @@
  * \file
  * 
  * \brief Eink Software Library
- * Microchip ASF4 Variant - release 1.6 - July 2020
+ * Microchip ASF4 Variant - release 1.6 - October 2020
  * 
  * \author George Sephton
  * 
@@ -72,6 +72,7 @@
  * This is Ineltek's Eink Software Library (version 1.6) for use with Microchip SAM MCUs and ASF4.
  *
  * It is designed to work with the following displays and driver ICs libraries:
+ * - <strong>ED013TC1</strong> : UC8173
  * - <strong>EL026TR1</strong> : UC8151
  * - <strong>ED028TC1</strong> : UC8177
  * - <strong>ED029TC1</strong> : UC8151
@@ -184,6 +185,23 @@
  *
  * To initialize the display, we have to first select which display we are using as the Eink Software
  * Library supports multiple Eink displays.
+ *
+ * \subsubsection setup_initialization_ed013tc1 ED013TC1 Initialization
+ * To initialize the Eink library for use with the ED013TC1 (UC8173), the eink_ed013tc1_init() function
+ * must be called. \ref uc8173_config must be used as the configuration struct. Note that
+ * uc8173_get_config_defaults() should be called before making any required changes and passing them to
+ * the initialization function.
+ *
+ * Example Code:
+ *
+ * \code
+ * struct uc8173_config eink_conf;
+ *
+ * uc8173_get_config_defaults(&eink_conf);
+ * eink_conf.display_rotation = ROTATE_0;
+ * eink_ed013tc1_init(&eink_conf, false);
+ * \endcode
+ *
  *
  * \subsubsection setup_initialization_el026tr1 EL026TR1 Initialization
  * To initialize the Eink library for use with the EL026TR1 (UC8151), the eink_el026tr1_init() function
@@ -341,7 +359,7 @@
  *
  * \section compinfo Compilation Information
  * This software was written for the GNU GCC compiler using Atmel Studio 7.0 and requires ASF version
- * 4 (originally compiled from Atmel START version 1.7.391). Other compilers may or may not work.
+ * 4 (originally compiled from Atmel START version 1.8.449). Other compilers may or may not work.
  *
  * \section contactinfo Contact Information
  * For further information, visit
@@ -357,7 +375,7 @@
     #include <eink/drivers/eink_ite_driver.c>
 
 	#include <eink/drivers/uc8173/uc8173.c>
-	//ED013TC1.c
+	#include <eink/displays/ed013tc1.c>
     #include <eink/drivers/uc8151/uc8151.c>
     #include <eink/displays/ed029tc1.c>
     #include <eink/displays/el026tr1.c>
@@ -381,7 +399,7 @@
     #include <eink/drivers/eink_ite_driver.h>
 
 	#include <eink/drivers/uc8173/uc8173.h>
-	//ED013TC1.h
+	#include <eink/displays/ed013tc1.h>
     #include <eink/drivers/uc8151/uc8151.h>
     #include <eink/displays/ed029tc1.h>
     #include <eink/displays/el026tr1.h>

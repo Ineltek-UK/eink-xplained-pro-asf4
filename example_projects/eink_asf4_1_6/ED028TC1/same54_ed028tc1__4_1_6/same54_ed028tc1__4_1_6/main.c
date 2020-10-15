@@ -3,7 +3,7 @@
  * 
  * \brief Eink HULK Demo - SAME54 - ED028TC1
  *
- * Microchip ASF4 Variant - release 1.6 - July 2020
+ * Microchip ASF4 Variant - release 1.6 - October 2020
  * 
  * \author George Sephton
  * 

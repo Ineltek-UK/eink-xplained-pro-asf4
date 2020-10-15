@@ -4,7 +4,7 @@
  * \brief ED028TC1 Eink Display Service
  * 
  * Eink Software Library
- * Microchip ASF4 Variant - release 1.6 - July 2020
+ * Microchip ASF4 Variant - release 1.6 - October 2020
  * 
  * \author George Sephton
  * 
@@ -118,7 +118,7 @@ void eink_ed028tc1_init(struct uc8177_config *const config, bool clear_display)
 }
 
 /**
- * \brief Sends the display buffer to the Display and can be 
+ * \brief Sends the display buffer to the display and can be 
  * refreshed if requested.
  * 
  * Note that 4 bits are required per pixel with a single byte of the data buffer

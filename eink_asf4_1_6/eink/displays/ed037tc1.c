@@ -4,7 +4,7 @@
  * \brief ED037TC1 Eink Display Service
  * 
  * Eink Software Library
- * Microchip ASF4 Variant - release 1.6 - July 2020
+ * Microchip ASF4 Variant - release 1.6 - October 2020
  * 
  * \author George Sephton
  * 
@@ -153,7 +153,7 @@ void eink_ed037tc1_put_display_buffer(bool refresh_display)
     
     /* Refresh */
     if(refresh_display) {
-            /* Upload update waveform - Note for demo purposes, only 25C waveforms are used */
+        /* Upload update waveform - Note for demo purposes, only 25C waveforms are used */
         if(ssd1677_global_instance.panel_settings.update_mode == UPDATE_SLOW)
         {
             eink_write_data(SSD1677_LUT_REG, ED037TC1_A2_LUT, 105); /* Slow Update */

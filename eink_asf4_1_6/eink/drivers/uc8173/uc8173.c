@@ -87,6 +87,123 @@ void uc8173_init(void)
     /* Reset display */
     uc8173_hard_reset();
     
-    /* Wait for BUSY output to return LOW */
-    //uc8173_wait_for_busy_high();
+    /* Wait for BUSY output to return HIGH */
+    uc8173_wait_for_busy_low();
+}
+
+/**
+ * \brief Set the UC8173 configuration registers.
+ *
+ * Sets all the necessary configuration for the UC8173 Eink display driver to communicate
+ * with the MCU and sets the necessary variables from the config struct to allow the 
+ * display to work.
+ *
+ * \param *config The configuration to write to the display driver.
+ */
+void uc8173_set_config(
+        struct uc8173_config *const config)
+{
+    uint8_t eink_data[5];
+    
+    uc8173_global_instance.display_config = *config;
+    
+    /* Booster Soft Start Control */
+    eink_data[0] = 0x17;
+	eink_data[1] = 0x17;
+	eink_data[2] = 0x26;
+	eink_write_data(UC8173_BTST, eink_data, 3);
+	
+    /* Power Settings */
+	eink_data[0] = 0x03;
+	eink_data[1] = 0x00;
+	eink_data[2] = 0x2B;
+	eink_data[3] = 0x2B;
+	eink_data[4] = 0x08;
+	eink_write_data(UC8173_PWR, eink_data, 5);
+	
+	eink_write_data(UC8173_PON, 0, 0);
+	uc8173_wait_for_busy_low();
+	
+    /* Panel Settings */	
+	eink_data[0] = 0x03;
+	eink_data[1] = 0x86;
+	eink_write_data(UC8173_PSR, eink_data, 2);
+
+    /* Power OFF Sequence Settings */
+	eink_data[0] = 0x00;
+	eink_write_data(UC8173_PFS, eink_data, 1);
+	
+    /* PLL Control */
+	eink_data[0] = 0x48;
+	eink_write_data(UC8173_LPRD, eink_data, 1);
+
+    /* Temperature Sensor Enable */
+	eink_data[0] = 0x00; /* Internal Sensor Enabled */
+	eink_write_data(UC8173_TSE, eink_data, 1);
+
+    /* VCOM & DI Settings */
+	eink_data[0] = 0xE1;
+	eink_data[1] = 0x20;
+	eink_data[2] = 0x10;
+	eink_write_data(UC8173_CDI, eink_data, 3);
+
+    /* Resolution Settings */
+	eink_data[0] = 0x7F; /* H = 127 */
+	eink_data[1] = 0x00;
+	eink_data[2] = 0xFF; /* W = 255 */
+	eink_write_data(UC8173_TRES, eink_data, 3);
+	
+	eink_data[0] = 0xCF;
+	eink_data[1] = 0xAF;
+	eink_data[2] = 0x00;
+	eink_data[3] = 0x00;
+	eink_data[4] = 0x03;
+	eink_write_data(UC8173_GDS, eink_data, 5);
+  
+	uc8173_measure_vcom();
+
+	eink_data[0] = 0x02;
+	eink_write_data(UC8173_LVSEL, eink_data, 1);
+	
+	eink_data[0] = 0x02;
+	eink_data[1] = 0x02;
+	eink_write_data(UC8173_GBS, eink_data, 2);
+	
+	eink_data[0] = 0x02;
+	eink_data[1] = 0x02;
+	eink_write_data(UC8173_GSS, eink_data, 2);
+	
+	eink_data[0] = 0x1F;
+	eink_write_data(0xDF, eink_data, 1); /* Command missing from sample code */
+	uc8173_wait_for_busy_low();
+
+    uc8173_send_gu2_lut();
+	
+	eink_write_data(UC8173_POF, 0, 0);
+	uc8173_wait_for_busy_high();
+}
+
+/**
+ * \brief Measures and set the VCOM value.
+ *
+ * Measure the VCOM voltage from the UC8173's internal mechanism and sets the 
+ * VDCS and VBDS setting.
+ */
+void uc8173_measure_vcom(void)
+{
+	uint8_t vcom_value = 0, eink_data[1];
+	
+	/* Auto measure VCOM */
+	eink_data[0] = 0x11;
+	eink_write_data(UC8173_AMV, eink_data, 1);
+	uc8173_wait_for_busy_low();
+
+	/* Read the measured VCOM value using 'VV' command */
+	eink_read_data(UC8173_VV, &vcom_value, 1);
+	vcom_value = vcom_value + 12;
+
+	eink_data[0] = vcom_value;
+	eink_write_data(UC8173_VDCS, eink_data, 1);
+	eink_write_data(UC8173_VBDS, eink_data, 1);
+
 }

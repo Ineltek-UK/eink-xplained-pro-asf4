@@ -4,7 +4,7 @@
  * \brief UC8159 Eink Display Driver Component
  * 
  * Eink Software Library
- * Microchip ASF4 Variant - release 1.6 - July 2020
+ * Microchip ASF4 Variant - release 1.6 - October 2020
  * 
  * \author George Sephton
  * 
@@ -69,64 +69,6 @@
  * 
  */
 #include <eink/drivers/uc8159/uc8159.h>
-
-/**
- * \brief Measures and set the VCOM value.
- *
- * Measure the VCOM voltage from the UC8159's internal mechanism and sets the 
- * VCOM_DC setting.
- */
-
-void uc8159_measure_vcom(void)
-{
-    uint8_t vcom_value = 0, eink_data[1], i;
-#ifdef EINK_MFCSB
-#ifdef EINK_FMSDO
-    /* Send the 'POWER ON' command */
-    eink_write_data(UC8159_PON, 0, 0);
-    uc8159_wait_for_busy();
-    
-    /* Read VCOM value from on-board flash address 0x00006400 */
-    eink_data[0] = 0x01;
-    eink_write_data(UC8159_DAM, eink_data, 1);
-    
-    vcom_value = 0;
-    /* Set MFCSB LOW to enable communication to the flash */
-    gpio_set_pin_level(EINK_MFCSB, 0);
-    
-    eink_send_raw_byte(0x03, 1);
-    
-    /* Send the read address */
-    eink_send_raw_byte(0x00, 1);
-    eink_send_raw_byte(0x64, 1);
-    eink_send_raw_byte(0x00, 1);
-    
-    /* Read the returned data */
-    for (i=0;i<8;i++) {
-        gpio_set_pin_level(EINK_SPI_SCL, 1);
-        if (gpio_get_pin_level(EINK_FMSDO)) {
-            vcom_value |= 1;
-        }
-        gpio_set_pin_level(EINK_SPI_SCL, 0);
-        if(i!=7) vcom_value = vcom_value << 1;
-    }
-    
-    /* Set MFCSB HIGH to end communication to the flash */
-    gpio_set_pin_level(EINK_MFCSB, 1);
-    /* Disable communication to on-board flash */
-    eink_data[0] = 0x00;
-    eink_write_data(UC8159_DAM, eink_data, 1);
-    
-    /* Set the measured VCOM value using 'VDCS' command */
-    eink_data[0] = vcom_value;
-    eink_write_data(UC8159_VDCS, eink_data, 1);
-
-    /* Send the 'POWER OFF' command */
-    eink_write_data(UC8159_POF, 0, 0);
-    uc8159_wait_for_busy();
-#endif
-#endif
-}
 
 /**
  * \brief Initializes the UC8159 Eink display driver 
@@ -410,4 +352,61 @@ void uc8159_set_psr_config(
         /* Send the PSR register to the display */
         eink_write_data(UC8159_PSR, eink_data, 1);  
     }
+}
+
+/**
+ * \brief Measures and set the VCOM value.
+ *
+ * Measure the VCOM voltage from the UC8159's internal mechanism and sets the 
+ * VCOM_DC setting.
+ */
+void uc8159_measure_vcom(void)
+{
+    uint8_t vcom_value = 0, eink_data[1], i;
+#ifdef EINK_MFCSB
+#ifdef EINK_FMSDO
+    /* Send the 'POWER ON' command */
+    eink_write_data(UC8159_PON, 0, 0);
+    uc8159_wait_for_busy();
+    
+    /* Read VCOM value from on-board flash address 0x00006400 */
+    eink_data[0] = 0x01;
+    eink_write_data(UC8159_DAM, eink_data, 1);
+    
+    vcom_value = 0;
+    /* Set MFCSB LOW to enable communication to the flash */
+    gpio_set_pin_level(EINK_MFCSB, 0);
+    
+    eink_send_raw_byte(0x03, 1);
+    
+    /* Send the read address */
+    eink_send_raw_byte(0x00, 1);
+    eink_send_raw_byte(0x64, 1);
+    eink_send_raw_byte(0x00, 1);
+    
+    /* Read the returned data */
+    for (i=0;i<8;i++) {
+        gpio_set_pin_level(EINK_SPI_SCL, 1);
+        if (gpio_get_pin_level(EINK_FMSDO)) {
+            vcom_value |= 1;
+        }
+        gpio_set_pin_level(EINK_SPI_SCL, 0);
+        if(i!=7) vcom_value = vcom_value << 1;
+    }
+    
+    /* Set MFCSB HIGH to end communication to the flash */
+    gpio_set_pin_level(EINK_MFCSB, 1);
+    /* Disable communication to on-board flash */
+    eink_data[0] = 0x00;
+    eink_write_data(UC8159_DAM, eink_data, 1);
+    
+    /* Set the measured VCOM value using 'VDCS' command */
+    eink_data[0] = vcom_value;
+    eink_write_data(UC8159_VDCS, eink_data, 1);
+
+    /* Send the 'POWER OFF' command */
+    eink_write_data(UC8159_POF, 0, 0);
+    uc8159_wait_for_busy();
+#endif
+#endif
 }

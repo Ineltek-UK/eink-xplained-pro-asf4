@@ -4,7 +4,7 @@
  * \brief UC8159 Eink Display Driver Component
  * 
  * Eink Software Library
- * Microchip ASF4 Variant - release 1.6 - July 2020
+ * Microchip ASF4 Variant - release 1.6 - October 2020
  * 
  * \author George Sephton
  * 
@@ -280,9 +280,9 @@ void uc8159_set_psr_config(
 
 //! \name UC8159 initialization function
 //@{
-void uc8159_measure_vcom(void);
-
 void uc8159_init(void);
+
+void uc8159_measure_vcom(void);
 //@}
 
 #ifdef __cplusplus

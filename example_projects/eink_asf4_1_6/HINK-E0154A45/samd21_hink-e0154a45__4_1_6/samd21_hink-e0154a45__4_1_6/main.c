@@ -3,7 +3,7 @@
  * 
  * \brief Eink Xplained Pro Demo - SAMD21 - HINK-E0154A45
  *
- * Microchip ASF4 Variant - release 1.6 - July 2020
+ * Microchip ASF4 Variant - release 1.6 - October 2020
  *
  * \author George Sephton
  *

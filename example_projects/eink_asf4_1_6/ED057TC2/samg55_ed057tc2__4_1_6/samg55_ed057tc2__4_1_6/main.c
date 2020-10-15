@@ -3,7 +3,7 @@
  * 
  * \brief Eink XL Xplained Pro Demo - SAMG55 - ED057TC2
  *
- * Microchip ASF4 Variant - release 1.6 - July 2020
+ * Microchip ASF4 Variant - release 1.6 - October 2020
  *
  * \author George Sephton
  *

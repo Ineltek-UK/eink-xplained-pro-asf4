@@ -1,9 +1,9 @@
 /**
  * \file
  * 
- * \brief Eink Xplained Pro Demo - SAMD21 - ED013TC1
+ * \brief Eink HULK Demo - SAMD21 - ED013TC1
  *
- * Microchip ASF4 Variant - release 1.6 - July 2020
+ * Microchip ASF4 Variant - release 1.6 - October 2020
  *
  * \author George Sephton
  *
@@ -77,8 +77,6 @@
 //Add any additional fonts needed
 
 //And any bitmaps
-#include <arduino_barcode.h>
-#include <ineltek_logo.h>
 
 //Function prototypes
 void eink_init_display();
@@ -86,136 +84,21 @@ void eink_draw_display(uint8_t display_no);
 
 int main (void)
 {
-	uint8_t eink_data[7];
-	
 	system_init();
-
-	uc8173_init();
 	
-	eink_data[0] = 0x17;
-	eink_data[1] = 0x97;
-	eink_data[2] = 0x20;
-	eink_write_data(UC8173_BTST, eink_data, 3);
-	
-	eink_data[0] = 0x03;
-	eink_data[1] = 0x01;
-	eink_data[2] = 0x2B;
-	eink_data[3] = 0x2B;
-	eink_data[4] = 0x00;
-	eink_write_data(UC8173_PWR, eink_data, 5);
-	   
-	
-	eink_write_data(UC8173_PON, 0, 0);
-	uc8173_wait_for_busy_low();
-	
-	
-	eink_data[0] = 0x0B;
-	eink_data[1] = 0x86;
-	eink_write_data(UC8173_PSR, eink_data, 2);
-
-
-	eink_data[0] = 0x00;
-	eink_write_data(UC8173_PFS, eink_data, 1);
-	
-	
-	eink_data[0] = 0x25;
-	eink_write_data(UC8173_LPRD, eink_data, 1);
-
-	eink_data[0] = 0x00;
-	eink_write_data(UC8173_TSE, eink_data, 1);
-
-
-	eink_data[0] = 0xE1;
-	eink_data[1] = 0x20;
-	eink_data[2] = 0x10;
-	eink_write_data(UC8173_CDI, eink_data, 3);
-
-	eink_data[0] = 0x7F;
-	eink_data[1] = 0x00;
-	eink_data[2] = 0xFF;
-	eink_write_data(UC8173_TRES, eink_data, 3);
-	
-	eink_data[0] = 0xA9;
-	eink_data[1] = 0xA9;
-	eink_data[2] = 0xEB;
-	eink_data[3] = 0xEB;
-	eink_data[4] = 0x02;
-	eink_write_data(UC8173_GDS, eink_data, 5);
-  
-	/*spi_9b_send_9b(AMV);
-	spi_9b_send(1,0x11);
-	SPI_COMMAND(VV);
-	unsigned char vcom_temp = spi_9b_get();
-	vcom_temp = vcom_temp + 12;
-	AutoVCOM = vcom_temp;
-	   
-	spi_9b_send_9b(VDCS);
-	spi_9b_send(1,AutoVCOM);  //0x12
-	   
-	spi_9b_send_9b(VBDS);
-	spi_9b_send(1,AutoVCOM);*/
-
-	eink_data[0] = 0x02;
-	eink_write_data(UC8173_LVSEL, eink_data, 1);
-	
-	eink_data[0] = 0x02;
-	eink_data[1] = 0x02;
-	eink_write_data(UC8173_GBS, eink_data, 2);
-	
-	eink_data[0] = 0x02;
-	eink_data[1] = 0x02;
-	eink_write_data(UC8173_GSS, eink_data, 2);	
-	
-	eink_write_data(UC8173_POF, 0, 0);
-	uc8173_wait_for_busy_high();
+	eink_init_display();
 	
 	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
-	
 	while(1);
-	
-	eink_data[0] = 0x00;
-	eink_data[1] = 0x00;
-	eink_data[2] = 0x00;
-	eink_data[3] = 0x7F;
-	eink_data[4] = 0x00;
-	eink_data[5] = 0xFF;
-	eink_write_data(UC8173_DTMW, eink_data, 6);
-
-	#define GFX_ED013TC1_MAX_WIDTH              128
-	#define GFX_ED013TC1_MAX_HEIGHT             256
-	#define GFX_ED013TC1_PIXELS_PER_BYTE        4
-	#define GFX_ED013TC1_DISPLAY_BUFFER_SIZE    ((GFX_ED013TC1_MAX_WIDTH * GFX_ED013TC1_MAX_HEIGHT) / GFX_ED013TC1_PIXELS_PER_BYTE)
-
-	volatile uint8_t *ed013tc1_dtm2_display_buffer;
-	uint32_t malloc_size = GFX_ED013TC1_DISPLAY_BUFFER_SIZE * sizeof(uint8_t);
-	ed013tc1_dtm2_display_buffer = (uint8_t*) malloc (malloc_size);
-	
-	uint16_t buffer_index;
-	
-	/* Set both display buffers to all WHITE. */
-	for (buffer_index = 0; buffer_index < GFX_ED013TC1_DISPLAY_BUFFER_SIZE; buffer_index++) {
-		/* Note that if the memory size is too small, a hard fault will occur here */
-		ed013tc1_dtm2_display_buffer[buffer_index] = 0xFF;
-	}
-	
-	eink_write_data(UC8173_DTM2, ed013tc1_dtm2_display_buffer, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
-
-	
-	eink_data[0] = 0x00;
-	eink_data[1] = 0x00;
-	eink_data[2] = 0x00;
-	eink_data[3] = 0x00;
-	eink_data[4] = 0x7F;
-	eink_data[5] = 0x00;
-	eink_data[6] = 0xFF;
-	eink_write_data(UC8173_DRF, eink_data, 7);
-	uc8173_wait_for_busy_low();
-	
 }
 
 void eink_init_display(void)
 {
-	uc8173_init();
+	struct uc8173_config eink_conf;
+	
+	uc8173_get_config_defaults(&eink_conf);
+	eink_conf.display_rotation = ROTATE_0;
+	eink_ed013tc1_init(&eink_conf, true);
 }
 
 void eink_draw_display(uint8_t display_no)

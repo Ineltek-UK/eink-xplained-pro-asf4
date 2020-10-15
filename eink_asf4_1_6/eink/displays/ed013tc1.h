@@ -1,7 +1,7 @@
 /**
  * \file
  * 
- * \brief AC057TC1 Eink Display Service
+ * \brief ED013TC1 Eink Display Service
  * 
  * Eink Software Library
  * Microchip ASF4 Variant - release 1.6 - October 2020
@@ -68,13 +68,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-#ifndef AC057TC1_H_
-#define AC057TC1_H_
+#ifndef ED013TC1_H_
+#define ED013TC1_H_
 
 #include <compiler.h>
 
 #include <eink/drivers/eink_driver.h>
-#include <eink/drivers/uc8159/uc8159.h>
+#include <eink/drivers/uc8173/uc8173.h>
 
 #include <eink/eink_gfx/eink_gfx.h>
 #include <eink/eink_gfx/eink_gfx_graphics.h>
@@ -85,54 +85,68 @@ extern "C" {
 
 //! \name Fundamental Display defines
 //@{
-#define GFX_AC057TC1_MAX_WIDTH              600
-#define GFX_AC057TC1_MAX_HEIGHT             448
-#define GFX_AC057TC1_PIXELS_PER_BYTE        2
-#define GFX_AC057TC1_DISPLAY_BUFFER_SIZE    ((GFX_AC057TC1_MAX_WIDTH * GFX_AC057TC1_MAX_HEIGHT) / GFX_AC057TC1_PIXELS_PER_BYTE)
+#define GFX_ED013TC1_MAX_WIDTH              128
+#define GFX_ED013TC1_MAX_HEIGHT             256
+#define GFX_ED013TC1_PIXELS_PER_BYTE        4
+#define GFX_ED013TC1_DISPLAY_BUFFER_SIZE    ((GFX_ED013TC1_MAX_WIDTH * GFX_ED013TC1_MAX_HEIGHT) / GFX_ED013TC1_PIXELS_PER_BYTE)
 //@}
 
-//! \name AC057TC1 display buffers 
+//! \name ED013TC1 display buffers 
 //@{
-volatile uint8_t *ac057tc1_dtm1_display_buffer;
+volatile uint8_t *ed013tc1_dtm1_display_buffer, *ed013tc1_dtm2_display_buffer;
 //@}
 
-//! \name AC057TC1 display initialization function
+//! \name ED013TC1 display initialization function
 //@{
-void eink_ac057tc1_init(
-        struct uc8159_config *const config,
+void eink_ed013tc1_init(
+        struct uc8173_config *const config,
         bool clear_display);
 //@}
 
-//! \name AC057TC1 display functions
+//! \name ED013TC1 display functions
 //@{
     
 /**
  * \brief Send the refresh command to the display driver.
  */
-static inline void eink_ac057tc1_refresh_display_buffer(void)
+static inline void eink_ed013tc1_refresh_display_buffer(void)
 {
-    /* Enable power to the display */
-    eink_write_data(UC8159_PON, 0, 0);
-    uc8159_wait_for_busy();
+    uint8_t eink_data[7];
     
-    /* Send the Refresh Display command */
-    eink_write_data(UC8159_DRF, 0, 0);
-    uc8159_wait_for_busy();
+    /* Enable power to the display */   
+    eink_write_data(UC8173_PON, 0, 0);
+    uc8173_wait_for_busy_low();
+    
+    /* Display Refresh */
+    eink_data[0] = 0x00; /* GC2 Update Mode */
+    //eink_data[0] = 0x08; /* GC2 Update Mode */
+    eink_data[1] = 0x00; /* X = 0 */
+    eink_data[2] = 0x00;
+    eink_data[3] = 0x00; /* Y = 0 */
+    eink_data[4] = 0x7F; /* W = 127 */
+    eink_data[5] = 0x00;
+    eink_data[6] = 0xFF; /* H = 255 */
+    eink_write_data(UC8173_DRF, eink_data, 7);
     
     /* Disable power to the display */
-    eink_write_data(UC8159_POF, 0, 0);
-    uc8159_wait_for_busy();
+    eink_write_data(UC8173_POF, 0, 0);
+    uc8173_wait_for_busy_low();
 }
-
-void eink_ac057tc1_put_display_buffer(
+    
+void eink_ed013tc1_put_display_buffer(
         bool refresh_display);
 
-void eink_ac057tc1_set_pixel(
+void eink_ed013tc1_set_pixel(
         eink_coordinate x_set,
         eink_coordinate y_set,
         enum eink_pixel_colour pixel_colour);
+        
+void eink_ed013tc1_set_pixel_raw(
+        eink_coordinate x_set,
+        eink_coordinate y_set,
+        uint8_t pixel_set);
 
-void eink_ac057tc1_graphics_load_mono_image(
+void eink_ed013tc1_graphics_load_mono_image(
         uint8_t *img_array,
         uint16_t array_size,
         eink_coordinate image_width_px,
@@ -141,10 +155,18 @@ void eink_ac057tc1_graphics_load_mono_image(
         eink_coordinate y_place,
         enum eink_pixel_colour foreground_colour,
         enum eink_pixel_colour background_colour);
+/*       
+void eink_ed028tc1_graphics_load_4bgrey_image(
+        uint8_t *img_array,
+        uint16_t array_size,
+        eink_coordinate image_width_px,
+        eink_coordinate image_height_bytes,
+        eink_coordinate x_place,
+        eink_coordinate y_place);*/
 //@}
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* AC057TC1_H_ */
+#endif /* ED013TC1_H_ */

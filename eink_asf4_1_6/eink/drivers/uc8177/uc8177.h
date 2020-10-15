@@ -204,9 +204,9 @@ struct uc8177_module {
     /** Display configuration */
     struct uc8177_config                        display_config;
     /** Display width */
-    eink_coordinate                           display_width;
+    eink_coordinate                             display_width;
     /** Display height */
-    eink_coordinate                           display_height;
+    eink_coordinate                             display_height;
 };
 volatile struct uc8177_module uc8177_global_instance;
 
@@ -278,6 +278,7 @@ void uc8177_set_config(
 
 static inline void uc8177_send_wf_lut(void)
 {
+    /* Upload update waveform - Note for demo purposes, only 25C waveform is used */
     uint8_t eink_data[12];
     uint8_t LUT_idx[2];
 
