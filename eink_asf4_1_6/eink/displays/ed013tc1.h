@@ -85,9 +85,9 @@ extern "C" {
 
 //! \name Fundamental Display defines
 //@{
-#define GFX_ED013TC1_MAX_WIDTH              128
-#define GFX_ED013TC1_MAX_HEIGHT             256
-#define GFX_ED013TC1_PIXELS_PER_BYTE        4
+#define GFX_ED013TC1_MAX_WIDTH              256
+#define GFX_ED013TC1_MAX_HEIGHT             128
+#define GFX_ED013TC1_PIXELS_PER_BYTE        8
 #define GFX_ED013TC1_DISPLAY_BUFFER_SIZE    ((GFX_ED013TC1_MAX_WIDTH * GFX_ED013TC1_MAX_HEIGHT) / GFX_ED013TC1_PIXELS_PER_BYTE)
 //@}
 
@@ -117,9 +117,10 @@ static inline void eink_ed013tc1_refresh_display_buffer(void)
     eink_write_data(UC8173_PON, 0, 0);
     uc8173_wait_for_busy_low();
     
+    uc8173_send_gu2_lut();
+	
     /* Display Refresh */
-    eink_data[0] = 0x00; /* GC2 Update Mode */
-    //eink_data[0] = 0x08; /* GC2 Update Mode */
+    eink_data[0] = 0x01; /* GU2 Update Mode */
     eink_data[1] = 0x00; /* X = 0 */
     eink_data[2] = 0x00;
     eink_data[3] = 0x00; /* Y = 0 */
@@ -140,11 +141,6 @@ void eink_ed013tc1_set_pixel(
         eink_coordinate x_set,
         eink_coordinate y_set,
         enum eink_pixel_colour pixel_colour);
-        
-void eink_ed013tc1_set_pixel_raw(
-        eink_coordinate x_set,
-        eink_coordinate y_set,
-        uint8_t pixel_set);
 
 void eink_ed013tc1_graphics_load_mono_image(
         uint8_t *img_array,

@@ -75,6 +75,7 @@
 #include <eink_asf4_1_6.h>
 
 //Add any additional fonts needed
+#include <ArvoBold/ArvoBold_18pt.h>
 
 //And any bitmaps
 
@@ -88,6 +89,19 @@ int main (void)
 	
 	eink_init_display();
 	
+	gfx_eink_graphics_fill_screen(FILL_BLACK);
+	gfx_eink_text_write_string("Arduino Uno", 7, 48, PIXEL_WHITE, ArvoBold_18pt);
+	
+	gfx_eink_put_display_buffer(true);	
+	
+	delay_ms(1000);
+	
+	
+	gfx_eink_graphics_fill_screen(FILL_BLACK);
+	gfx_eink_text_write_string("Arduino Uno", 7, 4, PIXEL_WHITE, ArvoBold_18pt);
+	
+	gfx_eink_put_display_buffer(true);
+	
 	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
 	while(1);
 }
@@ -98,7 +112,7 @@ void eink_init_display(void)
 	
 	uc8173_get_config_defaults(&eink_conf);
 	eink_conf.display_rotation = ROTATE_0;
-	eink_ed013tc1_init(&eink_conf, true);
+	eink_ed013tc1_init(&eink_conf, false);
 }
 
 void eink_draw_display(uint8_t display_no)

@@ -75,7 +75,7 @@
  * Used to load the GFX config structure with ED013TC1 information and map
  * the display specific functions.
  */
-struct eink_gfx_config eink_gfx_ed013tc1_config = { GFX_ED013TC1, GFX_ED013TC1_MAX_WIDTH, GFX_ED013TC1_MAX_HEIGHT, GFX_ED013TC1_DISPLAY_BUFFER_SIZE, ROTATE_0, 0, 0, eink_ed013tc1_refresh_display_buffer, 0, 0, eink_ed013tc1_put_display_buffer, 0, eink_ed013tc1_set_pixel, eink_ed013tc1_set_pixel_raw, eink_ed013tc1_graphics_load_mono_image }; /*, eink_ed028tc1_graphics_load_4bgrey_image }; */
+struct eink_gfx_config eink_gfx_ed013tc1_config = { GFX_ED013TC1, GFX_ED013TC1_MAX_WIDTH, GFX_ED013TC1_MAX_HEIGHT, GFX_ED013TC1_DISPLAY_BUFFER_SIZE, ROTATE_0, 0, 0, eink_ed013tc1_refresh_display_buffer, 0, 0, eink_ed013tc1_put_display_buffer, 0, eink_ed013tc1_set_pixel, 0, eink_ed013tc1_graphics_load_mono_image }; /*, eink_ed028tc1_graphics_load_4bgrey_image }; */
     
 /**
  * \brief Initialize UC8173 controller and Eink display.
@@ -89,6 +89,7 @@ struct eink_gfx_config eink_gfx_ed013tc1_config = { GFX_ED013TC1, GFX_ED013TC1_M
 void eink_ed013tc1_init(struct uc8173_config *const config, bool clear_display)
 {    
     uint32_t buffer_index;
+    uint8_t eink_data[6];
 
     /* Allocated memory for display buffers */
     uint32_t malloc_size = GFX_ED013TC1_DISPLAY_BUFFER_SIZE * sizeof(uint8_t);
@@ -112,11 +113,10 @@ void eink_ed013tc1_init(struct uc8173_config *const config, bool clear_display)
     /* Set both display buffers to all WHITE. */
     for (buffer_index = 0; buffer_index < GFX_ED013TC1_DISPLAY_BUFFER_SIZE; buffer_index++) {
         /* Note that if the memory size is too small, a hard fault will occur here */
-        ptr_eink_gfx_config->display_buffer_1_ptr[buffer_index] = 0xFF;
-        ptr_eink_gfx_config->display_buffer_2_ptr[buffer_index] = 0xFF;
+        ptr_eink_gfx_config->display_buffer_1_ptr[buffer_index] = 0xFF; /* DTM1 is previous buffer */
+        ptr_eink_gfx_config->display_buffer_2_ptr[buffer_index] = 0xFF; /* DTM2 is current buffer */
     }
-
-    /* Send both display buffers to the display if requested. */
+    /* Send both display buffers to the display and update if requested. */
     if(clear_display) eink_ed013tc1_put_display_buffer(true);
 }
 
@@ -124,15 +124,15 @@ void eink_ed013tc1_init(struct uc8173_config *const config, bool clear_display)
  * \brief Sends the display buffer to the display and can be 
  * refreshed if requested.
  * 
- * Note that 2 bits are required per pixel with a single byte of the data buffer
- * holding 4 pixels. Each pixel is assigned a 2-bit greyscale value.
+ * Note that 1 bit is required per pixel with a single byte of the data buffer
+ * holding 8 pixels.
  *
  * \param refresh_display Refresh the display after uploading the display buffers.
  */
 void eink_ed013tc1_put_display_buffer(bool refresh_display)
 {
     uint16_t i;
-    uint8_t eink_data[8];
+    uint8_t eink_data[6];
 
     /* Set Data Transmit Windows */
     eink_data[0] = 0x00; /* X = 0 */
@@ -143,16 +143,11 @@ void eink_ed013tc1_put_display_buffer(bool refresh_display)
     eink_data[5] = 0xFF; /* H = 255 */
     eink_write_data(UC8173_DTMW, eink_data, 6);
 
-    /* Update the DTM1 register with the previous display buffer */
-    eink_write_data(UC8173_DTM1, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
-    /* Update the DTM2 register with the display buffer */
-    eink_write_data(UC8173_DTM2, ptr_eink_gfx_config->display_buffer_2_ptr, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
-    
-    eink_data[0] = 0x01;
-    eink_data[1] = 0x20;
-    eink_data[2] = 0x10;
-    eink_write_data(UC8173_CDI, eink_data, 3);
-    
+	/* Update the DTM3 register with the previous display buffer */
+	eink_write_data(UC8173_DTM3, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
+    /* Update the DTM4 register with the display buffer */
+    eink_write_data(UC8173_DTM4, ptr_eink_gfx_config->display_buffer_2_ptr, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
+	
     if(refresh_display) {
         eink_ed013tc1_refresh_display_buffer();
     }
@@ -172,27 +167,29 @@ void eink_ed013tc1_put_display_buffer(bool refresh_display)
  */
 void eink_ed013tc1_set_pixel(eink_coordinate x_set, eink_coordinate y_set, enum eink_pixel_colour pixel_colour)
 {    
-    switch(pixel_colour) {
-        case PIXEL_BLACK:
-            eink_ed013tc1_set_pixel_raw(x_set, y_set, 0x0);
-            break;
-        default:
-        case PIXEL_WHITE:
-            eink_ed013tc1_set_pixel_raw(x_set, y_set, 0x3);
-            break;
-    }
-}
-
-/**
- * \brief Set a specified pixel in the display buffer based an x and a y coordinate.
- *
- * \param x_set X coordinate of the pixel to set.
- * \param y_set Y coordinate of the pixel to set.
- * \param pixel_colour Color to set the pixel to.
- */
-void eink_ed013tc1_set_pixel_raw(eink_coordinate x_set, eink_coordinate y_set, uint8_t pixel_set)
-{    
+    uint32_t y1_set, x1_set, byte_set;
+    uint8_t bit_set, pixel_set_1 = 1, pixel_set_2 = 1;
+    uint8_t height_bytes = uc8173_global_instance.display_height / 8;
+    //uint8_t width_bytes = uc8173_global_instance.display_width / 8;
     
+    /* Ignore any pixels being set outside of the display window */
+    if ( (x_set >= 0) && (x_set < uc8173_global_instance.display_width) && (y_set >= 0) && (y_set < uc8173_global_instance.display_height) ) {
+        
+		/* Rotation: 0 deg */
+        /* Calculate which byte the pixel in question is contained in */
+        y1_set = ((y_set - (y_set % 8)) / 8);
+        byte_set = ((x_set * height_bytes) - 1 - y1_set);
+        /* Calculate which bit in that byte the pixel in question is */
+        bit_set = (y_set % 8);
+        
+        /*
+        *           DTM2
+        * BLACK:     0
+        * WHITE:     1
+        */
+		if(pixel_colour == PIXEL_BLACK) eink_set_bit(&ptr_eink_gfx_config->display_buffer_2_ptr[byte_set], bit_set, 0);
+		else eink_set_bit(&ptr_eink_gfx_config->display_buffer_2_ptr[byte_set], bit_set, 1);
+	}
 }
 
 /**

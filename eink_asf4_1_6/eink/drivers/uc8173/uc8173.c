@@ -107,6 +107,14 @@ void uc8173_set_config(
     
     uc8173_global_instance.display_config = *config;
     
+	if((config->display_rotation == ROTATE_90) || (config->display_rotation == ROTATE_270)) {
+		uc8173_global_instance.display_width   = 128;
+		uc8173_global_instance.display_height  = 256;
+	} else {
+		uc8173_global_instance.display_width   = 256;
+		uc8173_global_instance.display_height  = 128;
+	}
+	
     /* Booster Soft Start Control */
     eink_data[0] = 0x17;
 	eink_data[1] = 0x17;
@@ -173,11 +181,9 @@ void uc8173_set_config(
 	eink_data[1] = 0x02;
 	eink_write_data(UC8173_GSS, eink_data, 2);
 	
-	eink_data[0] = 0x1F;
-	eink_write_data(0xDF, eink_data, 1); /* Command missing from sample code */
-	uc8173_wait_for_busy_low();
-
-    uc8173_send_gu2_lut();
+	//eink_data[0] = 0x1F;
+	//eink_write_data(0xDF, eink_data, 1); /* Command missing from sample code */
+	//uc8173_wait_for_busy_low();
 	
 	eink_write_data(UC8173_POF, 0, 0);
 	uc8173_wait_for_busy_high();
