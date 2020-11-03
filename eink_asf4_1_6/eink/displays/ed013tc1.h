@@ -128,10 +128,11 @@ static inline void eink_ed013tc1_refresh_display_buffer(void)
     eink_data[5] = 0x00;
     eink_data[6] = 0xFF; /* H = 255 */
     eink_write_data(UC8173_DRF, eink_data, 7);
+    uc8173_wait_for_busy_low();
     
     /* Disable power to the display */
     eink_write_data(UC8173_POF, 0, 0);
-    uc8173_wait_for_busy_low();
+    uc8173_wait_for_busy_high();
 }
     
 void eink_ed013tc1_put_display_buffer(

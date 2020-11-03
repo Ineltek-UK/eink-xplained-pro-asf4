@@ -78,6 +78,21 @@ void system_init(void)
 
 	gpio_set_pin_function(EINK_SPI_SCL, GPIO_PIN_FUNCTION_OFF);
 
+	// GPIO on PA15
+
+	// Set pin direction to input
+	gpio_set_pin_direction(USER_SW, GPIO_DIRECTION_IN);
+
+	gpio_set_pin_pull_mode(USER_SW,
+	                       // <y> Pull configuration
+	                       // <id> pad_pull_config
+	                       // <GPIO_PULL_OFF"> Off
+	                       // <GPIO_PULL_UP"> Pull-up
+	                       // <GPIO_PULL_DOWN"> Pull-down
+	                       GPIO_PULL_UP);
+
+	gpio_set_pin_function(USER_SW, GPIO_PIN_FUNCTION_OFF);
+
 	// GPIO on PB00
 
 	gpio_set_pin_level(EINK_DC,

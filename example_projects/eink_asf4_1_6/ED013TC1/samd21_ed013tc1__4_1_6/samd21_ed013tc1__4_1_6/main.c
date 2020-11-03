@@ -88,11 +88,25 @@ int main (void)
 	system_init();
 	
 	eink_init_display();
+	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
 	
+	while(1)
+	{
+		if(!gpio_get_pin_level(USER_SW))
+		{
+			while(!gpio_get_pin_level(USER_SW));
+			break;
+		}
+	}
+	
+	gpio_set_pin_level(EINK_X_LED_0_PIN, 0);
 	gfx_eink_graphics_fill_screen(FILL_BLACK);
 	gfx_eink_text_write_string("Arduino Uno", 7, 48, PIXEL_WHITE, ArvoBold_18pt);
 	
-	gfx_eink_put_display_buffer(true);	
+	gfx_eink_put_display_buffer(true);
+	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);	
+	
+	while(1);
 	
 	delay_ms(1000);
 	
@@ -102,7 +116,6 @@ int main (void)
 	
 	gfx_eink_put_display_buffer(true);
 	
-	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
 	while(1);
 }
 

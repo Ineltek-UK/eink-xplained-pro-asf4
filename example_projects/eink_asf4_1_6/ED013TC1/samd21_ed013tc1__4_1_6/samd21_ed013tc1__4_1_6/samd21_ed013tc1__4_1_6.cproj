@@ -98,9 +98,9 @@
           <AcmeProjectActionInfo Action="File" Source="hri/hri_usb_d21.h" IsConfig="false" Hash="RxhrdW3BEk3zWzOXVeshaQ" />
           <AcmeProjectActionInfo Action="File" Source="hri/hri_wdt_d21.h" IsConfig="false" Hash="ruUMkugqrufLH89qsLNR9Q" />
           <AcmeProjectActionInfo Action="File" Source="main.c" IsConfig="false" Hash="k0AH7j+BrmdFhBPzCCMptA" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="/u6itWWJcvdWz7C+J6A9jQ" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="mAqYfjdcaJdVWIqVVbRlmw" />
           <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="Xi0TijweZrRc1tuaHnS4mg" />
-          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="97AUMke0Plyqla1+KAnTbQ" />
+          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="K649QMRpcfXH0Ibgsbrg5g" />
           <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.h" IsConfig="false" Hash="xqym42O9Zt3aBChrz2ZeIw" />
           <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="5qfJVC7+StcrjizQX3LWTg" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_missing_features.h" IsConfig="false" Hash="XsAvpgfutzkw0Y5SydYFaw" />
@@ -188,7 +188,6 @@
       <Value>../hpl/sysctrl</Value>
       <Value>../hpl/systick</Value>
       <Value>../hri</Value>
-      <Value>%24(PackRepoDir)\Atmel\SAMD21_DFP\1.3.395\samd21a\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
@@ -224,7 +223,6 @@
       <Value>../hpl/sysctrl</Value>
       <Value>../hpl/systick</Value>
       <Value>../hri</Value>
-      <Value>%24(PackRepoDir)\Atmel\SAMD21_DFP\1.3.395\samd21a\include</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
   <armgcc.preprocessingassembler.general.IncludePaths>
@@ -244,7 +242,6 @@
       <Value>../hpl/sysctrl</Value>
       <Value>../hpl/systick</Value>
       <Value>../hri</Value>
-      <Value>%24(PackRepoDir)\Atmel\SAMD21_DFP\1.3.395\samd21a\include</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>
 </ArmGcc>
@@ -282,7 +279,6 @@
       <Value>../hpl/sysctrl</Value>
       <Value>../hpl/systick</Value>
       <Value>../hri</Value>
-      <Value>%24(PackRepoDir)\Atmel\SAMD21_DFP\1.3.395\samd21a\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize (-O1)</armgcc.compiler.optimization.level>
@@ -320,7 +316,6 @@
       <Value>../hpl/sysctrl</Value>
       <Value>../hpl/systick</Value>
       <Value>../hri</Value>
-      <Value>%24(PackRepoDir)\Atmel\SAMD21_DFP\1.3.395\samd21a\include</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
   <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
@@ -341,7 +336,6 @@
       <Value>../hpl/sysctrl</Value>
       <Value>../hpl/systick</Value>
       <Value>../hri</Value>
-      <Value>%24(PackRepoDir)\Atmel\SAMD21_DFP\1.3.395\samd21a\include</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>
   <armgcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcc.preprocessingassembler.debugging.DebugLevel>

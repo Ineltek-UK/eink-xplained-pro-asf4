@@ -116,6 +116,11 @@ void eink_ed013tc1_init(struct uc8173_config *const config, bool clear_display)
         ptr_eink_gfx_config->display_buffer_1_ptr[buffer_index] = 0xFF; /* DTM1 is previous buffer */
         ptr_eink_gfx_config->display_buffer_2_ptr[buffer_index] = 0xFF; /* DTM2 is current buffer */
     }
+	
+	/* Send both display empty buffers */
+	eink_write_data(UC8173_DTM3, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
+	eink_write_data(UC8173_DTM4, ptr_eink_gfx_config->display_buffer_2_ptr, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
+	
     /* Send both display buffers to the display and update if requested. */
     if(clear_display) eink_ed013tc1_put_display_buffer(true);
 }
@@ -144,7 +149,7 @@ void eink_ed013tc1_put_display_buffer(bool refresh_display)
     eink_write_data(UC8173_DTMW, eink_data, 6);
 
 	/* Update the DTM3 register with the previous display buffer */
-	eink_write_data(UC8173_DTM3, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
+	//eink_write_data(UC8173_DTM3, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
     /* Update the DTM4 register with the display buffer */
     eink_write_data(UC8173_DTM4, ptr_eink_gfx_config->display_buffer_2_ptr, GFX_ED013TC1_DISPLAY_BUFFER_SIZE);
 	

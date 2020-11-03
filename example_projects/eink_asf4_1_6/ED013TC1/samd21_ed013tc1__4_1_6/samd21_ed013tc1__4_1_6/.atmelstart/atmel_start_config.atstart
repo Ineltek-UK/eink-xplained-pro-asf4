@@ -564,6 +564,13 @@ pads:
     mode: Digital output
     user_label: EINK_SPI_SCL
     configuration: null
+  USER_SW:
+    name: PA15
+    definition: Atmel:SAMD21_Drivers:0.0.1::SAMD21J18A-AU::pad::PA15
+    mode: Digital input
+    user_label: USER_SW
+    configuration:
+      pad_pull_config: Pull-up
   EINK_X_LED_0_PIN:
     name: PB30
     definition: Atmel:SAMD21_Drivers:0.0.1::SAMD21J18A-AU::pad::PB30
