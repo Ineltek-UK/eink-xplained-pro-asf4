@@ -254,7 +254,7 @@ void gfx_eink_graphics_draw_rect(eink_coordinate x0, eink_coordinate y0, eink_co
     if (fill_colour != FILL_NONE) {
         for (i = (x0 + 1); i < (x0 + width - 1); i++) {
             for (j = (y0 + 1); j < (y0 + height - 1); j++) {
-                if(ptr_eink_gfx_config->gfx_display == GFX_AC057TC1)
+                if((ptr_eink_gfx_config->gfx_display == GFX_AC057TC1) || (ptr_eink_gfx_config->gfx_display == GFX_AC040TC1))
                 {
                     switch (fill_colour) {
                         case FILL_BLACK:  gfx_eink_set_pixel(i, j, PIXEL_BLACK); break;

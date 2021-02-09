@@ -92,6 +92,7 @@ enum eink_gfx_display_select {
     GFX_ED028TC1,
     GFX_ED029TC1,
     GFX_HINK_E0154A05,
+	GFX_AC040TC1,
     GFX_AC057TC1,
     GFX_ED057TC2,
     GFX_ED037TC1,

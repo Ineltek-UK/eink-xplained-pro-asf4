@@ -113,10 +113,10 @@ int main (void)
 	struct ssd1677_config eink_conf;
 	
 	ssd1677_get_config_defaults(&eink_conf);
-	eink_conf.display_rotation = ROTATE_90;
+	eink_conf.display_rotation = ROTATE_0;
 	eink_ed037tc1_init(&eink_conf, false);
 		
-	gfx_eink_graphics_fill_screen(FILL_WHITE);
+	gfx_eink_graphics_fill_screen_raw(0xAA);
 	
 	
 	const uint16_t startx = 16;
@@ -137,23 +137,30 @@ int main (void)
 	eink_ed037tc1_put_display_buffer(false);
 	ssd1677_global_instance.panel_settings.update_mode = UPDATE_SLOW;
 	eink_ed037tc1_refresh_display_buffer();
+	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
 	
-	eink_ed037tc1_put_display_buffer(false);
-	ssd1677_global_instance.panel_settings.update_mode = UPDATE_FAST;
-	eink_ed037tc1_refresh_display_buffer();
+	while(1);
+	delay_ms(2000);
 	
 	gfx_eink_graphics_fill_screen(FILL_BLACK);
 	gfx_eink_load_mono_image(&eink_IneltekLogo, sizeof(eink_IneltekLogo), eink_IneltekLogo_width_px, eink_IneltekLogo_height_bytes, 16, 48, PIXEL_WHITE, PIXEL_BLACK);
 	
-	eink_ed037tc1_put_partial_display_buffer(startx, starty, width, height);
+	gpio_set_pin_level(EINK_X_LED_0_PIN, 0);
+	
+	eink_ed037tc1_put_display_buffer(false);
 	ssd1677_global_instance.panel_settings.update_mode = UPDATE_SLOW;
 	eink_ed037tc1_refresh_display_buffer();
 	
-	while(1);
+	//eink_ed037tc1_put_partial_display_buffer(startx, starty, width, height);
+	//ssd1677_global_instance.panel_settings.update_mode = UPDATE_SLOW;
+	//eink_ed037tc1_refresh_display_buffer();
+	
 	
 	//eink_draw_display(0);
 	
 	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
+	
+	while(1);
 	while (1)
 	{
 		if(!gpio_get_pin_level(EINK_X_BUTTON_0_PIN)) {

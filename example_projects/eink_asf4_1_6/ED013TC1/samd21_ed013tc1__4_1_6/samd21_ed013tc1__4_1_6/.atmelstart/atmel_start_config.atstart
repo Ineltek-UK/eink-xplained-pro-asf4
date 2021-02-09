@@ -2,16 +2,16 @@ format_version: '2'
 name: samd21_ed013tc1__4_1_6
 versions:
   api: '1.0'
-  backend: 1.8.449
+  backend: 1.8.457
   commit: c39d50a8c7c22fe58c921178843d3cbb666dc04b
   content: unknown
   content_pack_name: unknown
   format: '2'
-  frontend: 1.8.449
-  packs_version_avr8: 1.0.1438
+  frontend: 1.8.457
+  packs_version_avr8: 1.0.1441
   packs_version_qtouch: unknown
   packs_version_sam: 1.0.1726
-  version_backend: 1.8.449
+  version_backend: 1.8.457
   version_frontend: ''
 board:
   identifier: SAMD21XplainedPro
@@ -26,10 +26,10 @@ drivers:
     functionality: System
     api: HAL:HPL:GCLK
     configuration:
-      $input: 400000
-      $input_id: External Crystal Oscillator 0.4-32MHz (XOSC)
-      RESERVED_InputFreq: 400000
-      RESERVED_InputFreq_id: External Crystal Oscillator 0.4-32MHz (XOSC)
+      $input: 48000000
+      $input_id: Digital Frequency Locked Loop (DFLL48M)
+      RESERVED_InputFreq: 48000000
+      RESERVED_InputFreq_id: Digital Frequency Locked Loop (DFLL48M)
       _$freq_output_Generic clock generator 0: 24000000
       _$freq_output_Generic clock generator 1: 400000
       _$freq_output_Generic clock generator 2: 400000

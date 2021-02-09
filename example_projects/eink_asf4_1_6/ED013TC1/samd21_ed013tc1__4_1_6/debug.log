@@ -1,0 +1,6 @@
+[1027/092148:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[1027/092153:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[1027/094559:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[1105/124417:ERROR:ipc_channel_win.cc(217)] pipe error: 109
+[1105/124417:WARNING:raw_channel_win.cc(532)] WriteFile: The pipe is being closed. (0xE8)
+[1105/124417:WARNING:channel.cc(359)] RawChannel write error
