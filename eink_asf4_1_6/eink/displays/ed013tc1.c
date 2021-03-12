@@ -102,6 +102,7 @@ void eink_ed013tc1_init(struct uc8173_config *const config, bool clear_display)
     uc8173_init();
 
     /* Configure the UC8173 controller. */
+    config->uc8173_display = UC8173_ED013TC1;
     uc8173_set_config(config);
     
     /* Set the GFX display rotation */

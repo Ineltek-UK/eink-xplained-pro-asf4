@@ -98,7 +98,7 @@ void gfx_eink_graphics_fill_screen(enum eink_fill_colour fill_color)
     
     for(dx = 0; dx < width_fill; dx++) {
         for(dy = 0; dy < height_fill; dy++) {
-            if(ptr_eink_gfx_config->gfx_display == GFX_AC057TC1)
+            if((ptr_eink_gfx_config->gfx_display == GFX_AC057TC1) || (ptr_eink_gfx_config->gfx_display == GFX_AC040TC1))
             {
                 switch (fill_color) {
                     case FILL_BLACK:  gfx_eink_set_pixel(dx, dy, PIXEL_BLACK); break;

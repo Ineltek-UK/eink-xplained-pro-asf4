@@ -87,6 +87,7 @@ extern "C" {
  * display is currently in use. 
  */
 enum eink_gfx_display_select {
+    GFX_ET011TT2,
     GFX_ED013TC1,
     GFX_EL026TR1,
     GFX_ED028TC1,

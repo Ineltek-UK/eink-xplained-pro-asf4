@@ -107,18 +107,29 @@ void uc8173_set_config(
     
     uc8173_global_instance.display_config = *config;
     
-	if((config->display_rotation == ROTATE_90) || (config->display_rotation == ROTATE_270)) {
-		uc8173_global_instance.display_width   = 128;
-		uc8173_global_instance.display_height  = 256;
-	} else {
-		uc8173_global_instance.display_width   = 256;
-		uc8173_global_instance.display_height  = 128;
+    if(config->uc8173_display == UC8173_ET011TT2) {
+    	uc8173_global_instance.display_width   = 240;
+		uc8173_global_instance.display_height  = 240;
+    } else if(config->uc8173_display == UC8173_ED013TC1) {
+		if((config->display_rotation == ROTATE_90) || (config->display_rotation == ROTATE_270)) {
+			uc8173_global_instance.display_width   = 128;
+			uc8173_global_instance.display_height  = 256;
+		} else {
+			uc8173_global_instance.display_width   = 256;
+			uc8173_global_instance.display_height  = 128;
+		}
 	}
 	
     /* Booster Soft Start Control */
-    eink_data[0] = 0x17;
-	eink_data[1] = 0x17;
-	eink_data[2] = 0x26;
+    if(config->uc8173_display == UC8173_ET011TT2) {
+    	eink_data[0] = 0x17;
+		eink_data[1] = 0x97;
+		eink_data[2] = 0x20;
+    } else if(config->uc8173_display == UC8173_ED013TC1) {
+	    eink_data[0] = 0x17;
+		eink_data[1] = 0x17;
+		eink_data[2] = 0x26;
+	}
 	eink_write_data(UC8173_BTST, eink_data, 3);
 	
     /* Power Settings */
@@ -132,9 +143,14 @@ void uc8173_set_config(
 	eink_write_data(UC8173_PON, 0, 0);
 	uc8173_wait_for_busy_low();
 	
-    /* Panel Settings */	
-	eink_data[0] = 0x03;
-	eink_data[1] = 0x86;
+    /* Panel Settings */
+    if(config->uc8173_display == UC8173_ET011TT2) {
+    	eink_data[0] = 0x0B;
+		eink_data[1] = 0x86;
+    } else if(config->uc8173_display == UC8173_ED013TC1) {
+		eink_data[0] = 0x03;
+		eink_data[1] = 0x86;
+	}
 	eink_write_data(UC8173_PSR, eink_data, 2);
 
     /* Power OFF Sequence Settings */
@@ -142,7 +158,11 @@ void uc8173_set_config(
 	eink_write_data(UC8173_PFS, eink_data, 1);
 	
     /* PLL Control */
-	eink_data[0] = 0x48;
+	if(config->uc8173_display == UC8173_ET011TT2) {
+		eink_data[0] = 0x25;
+	} else if(config->uc8173_display == UC8173_ED013TC1) {
+		eink_data[0] = 0x48;
+	}
 	eink_write_data(UC8173_LPRD, eink_data, 1);
 
     /* Temperature Sensor Enable */
@@ -156,19 +176,38 @@ void uc8173_set_config(
 	eink_write_data(UC8173_CDI, eink_data, 3);
 
     /* Resolution Settings */
-	eink_data[0] = 0x7F; /* H = 127 */
-	eink_data[1] = 0x00;
-	eink_data[2] = 0xFF; /* W = 255 */
+    if(config->uc8173_display == UC8173_ET011TT2) {
+		eink_data[0] = 0xEF; /* H = 239 */
+		eink_data[1] = 0x00;
+		eink_data[2] = 0xEF; /* W = 239 */
+	} else if(config->uc8173_display == UC8173_ED013TC1) {
+		eink_data[0] = 0x7F; /* H = 127 */
+		eink_data[1] = 0x00;
+		eink_data[2] = 0xFF; /* W = 255 */
+	}
 	eink_write_data(UC8173_TRES, eink_data, 3);
 	
-	eink_data[0] = 0xCF;
-	eink_data[1] = 0xAF;
-	eink_data[2] = 0x00;
-	eink_data[3] = 0x00;
-	eink_data[4] = 0x03;
+	/* Gate Group Setting */
+	if(config->uc8173_display == UC8173_ET011TT2) {
+		eink_data[0] = 0xA9;
+		eink_data[1] = 0xA9;
+		eink_data[2] = 0xEB;
+		eink_data[3] = 0xEB;
+		eink_data[4] = 0x02;
+	} else if(config->uc8173_display == UC8173_ED013TC1) {
+		eink_data[0] = 0xCF;
+		eink_data[1] = 0xAF;
+		eink_data[2] = 0x00;
+		eink_data[3] = 0x00;
+		eink_data[4] = 0x03;
+	}
 	eink_write_data(UC8173_GDS, eink_data, 5);
   
-	uc8173_measure_vcom();
+	//uc8173_measure_vcom();
+	
+	eink_data[0] = 0x26;
+	eink_write_data(UC8173_VDCS, eink_data, 1);
+	eink_write_data(UC8173_VBDS, eink_data, 1);
 
 	eink_data[0] = 0x02;
 	eink_write_data(UC8173_LVSEL, eink_data, 1);
@@ -181,12 +220,11 @@ void uc8173_set_config(
 	eink_data[1] = 0x02;
 	eink_write_data(UC8173_GSS, eink_data, 2);
 	
-	//eink_data[0] = 0x1F;
-	//eink_write_data(0xDF, eink_data, 1); /* Command missing from sample code */
-	//uc8173_wait_for_busy_low();
+	eink_data[0] = 0x1F;
+	eink_write_data(UC8173_DF, eink_data, 1);
 	
-	eink_write_data(UC8173_POF, 0, 0);
-	uc8173_wait_for_busy_high();
+	//eink_write_data(UC8173_POF, 0, 0);
+	//uc8173_wait_for_busy_high();
 }
 
 /**
