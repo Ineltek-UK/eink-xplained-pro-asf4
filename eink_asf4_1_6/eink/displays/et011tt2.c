@@ -204,18 +204,28 @@ void eink_et011tt2_set_pixel_raw(eink_coordinate x_set, eink_coordinate y_set, u
 	uint32_t y1_set, x1_set, byte_set;
     uint8_t bit_set, pixel_set_1 = 1, pixel_set_2 = 1;
     uint8_t height_bytes = uc8173_global_instance.display_height / 4;
+    uint8_t width_bytes = uc8173_global_instance.display_width / 4;
     
     /* Ignore any pixels being set outside of the display window */
     if ( (x_set >= 0) && (x_set < uc8173_global_instance.display_width) && (y_set >= 0) && (y_set < uc8173_global_instance.display_height) ) {
         
-		/* Rotation: 0 deg */
-        y1_set = ((y_set - (y_set % 4)) / 4);
-        byte_set = ((x_set * height_bytes) - 1 - y1_set);
-        /* Calculate which bit in that byte the pixel in question is */
-        bit_set = (y_set % 4) * 2;
-
-		eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set, (pixel_set & 0x1));
-		eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set+1, ((pixel_set >> 1) & 0x1));
+		if ( (uc8173_global_instance.display_config.display_rotation == ROTATE_90) || (uc8173_global_instance.display_config.display_rotation == ROTATE_270) ) {
+			x1_set = 59 - ((x_set - (x_set % 4)) / 4);
+			byte_set = (((y_set + 1) * width_bytes ) - 1 - x1_set);
+			/* Calculate which bit in that byte the pixel in question is */
+			bit_set = 7 - ((x_set % 4) * 2);
+			
+			eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set, ((pixel_set >> 1) & 0x1));
+			eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set-1, (pixel_set & 0x1));
+		} else {
+			y1_set = ((y_set - (y_set % 4)) / 4);
+			byte_set = ((x_set * height_bytes) - 1 - y1_set);
+			/* Calculate which bit in that byte the pixel in question is */
+			bit_set = (y_set % 4) * 2;
+			
+			eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set, (pixel_set & 0x1));
+			eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set+1, ((pixel_set >> 1) & 0x1));
+		}
 	}
 }
 

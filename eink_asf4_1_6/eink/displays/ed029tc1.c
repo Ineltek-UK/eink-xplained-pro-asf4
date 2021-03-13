@@ -202,7 +202,7 @@ void eink_ed029tc1_set_pixel(eink_coordinate x_set, eink_coordinate y_set, enum 
         if ( (uc8151_global_instance.panel_settings.display_rotation == ROTATE_90) || (uc8151_global_instance.panel_settings.display_rotation == ROTATE_270) ) {
             /* Calculate which byte the pixel in question is contained in */
             x1_set = 15 - ((x_set - (x_set % 8)) / 8);
-            byte_set = (((y_set + 1) * width_bytes ) - 1 - (width_bytes - 16) - x1_set);
+            byte_set = (((y_set + 1) * width_bytes ) - 1 - x1_set);
             /* Calculate which bit in that byte the pixel in question is */
             bit_set = 7 - (x_set % 8);
         } else {

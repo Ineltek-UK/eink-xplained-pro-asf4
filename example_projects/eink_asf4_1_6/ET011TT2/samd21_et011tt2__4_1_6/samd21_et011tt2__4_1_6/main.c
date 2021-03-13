@@ -93,26 +93,28 @@ int main (void)
 	system_init();
 	
 	eink_init_display();
+	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
 	
 	gfx_eink_graphics_fill_screen_raw(0xFF);
 	
+	uc8173_global_instance.display_config.update_mode = UPDATE_SLOW;
+	gfx_eink_put_display_buffer(true);
+	
+	delay_ms(1000);
+	
 	eink_et011tt2_graphics_load_2bgrey_image(eink_GSephElecLogo_2bGrey, sizeof(eink_GSephElecLogo_2bGrey), eink_GSephElecLogo_2bGrey_width_px, eink_GSephElecLogo_2bGrey_height_bytes, 40, 68);
-	//gfx_eink_text_write_string_raw("Hello World!", 30, 80, 0x1, ArvoBold_18pt);
-	//gfx_eink_text_write_string_raw("Hello World!", 30, 110, 0x2, ArvoBold_18pt);
 	
 	uc8173_global_instance.display_config.update_mode = UPDATE_SLOW;
 	gfx_eink_put_display_buffer(true);
-
-	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
-	while(1);
-
-	/*gfx_eink_graphics_fill_screen(FILL_WHITE);	
+	
+	delay_ms(1000);
+	
+	gfx_eink_graphics_fill_screen_raw(0xFF);
+	gfx_eink_text_write_string_raw("Counter", 70, 35, 0x1, ArvoBold_18pt);
 	sprintf(writeText, "%d", i);
 	gfx_eink_text_write_string_raw(writeText, 62, 52, 0x0, RobotoBold_76pt);
-	
 	gfx_eink_put_display_buffer(true);
-	
-	
+		
 	for(uint8_t i = 11; i < 20; i++)
 	{
 		gfx_eink_graphics_draw_rect(50, 70, 140, 100, PIXEL_NONE, FILL_WHITE);
@@ -127,10 +129,6 @@ int main (void)
 	gfx_eink_put_display_buffer(true);
 	
 	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);	
-	*/
-	
-	//gfx_eink_text_write_string_raw("Hello World!", 30, 80, 0x1, ArvoBold_18pt);
-	//gfx_eink_text_write_string_raw("Hello World!", 30, 110, 0x2, ArvoBold_18pt);
 }
 
 void eink_init_display(void)

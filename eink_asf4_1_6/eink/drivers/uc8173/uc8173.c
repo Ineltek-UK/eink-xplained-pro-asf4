@@ -145,7 +145,11 @@ void uc8173_set_config(
 	
     /* Panel Settings */
     if(config->uc8173_display == UC8173_ET011TT2) {
-    	eink_data[0] = 0x0B;
+		if((config->display_rotation == ROTATE_180) || (config->display_rotation == ROTATE_270)) {
+    		eink_data[0] = 0xF; //0xF
+		} else {
+			eink_data[0] = 0x0B;
+		}
 		eink_data[1] = 0x86;
     } else if(config->uc8173_display == UC8173_ED013TC1) {
 		eink_data[0] = 0x03;
