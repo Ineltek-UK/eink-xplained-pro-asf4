@@ -330,6 +330,18 @@ enum eink_uc8173_display {
     UC8173_ED013TC1,
     UC8173_ET011TT2
 };
+/**
+ * \brief UC8173 Current LUT
+ *
+ * Stores the value of the current update LUT uploaded to the UC8173, used to ensure the
+ * same LUT is not uploaded unnecessarily. 
+ */
+enum eink_uc8173_current_lut {
+    UC8173_LUT_ED013TC1_GC2,
+    UC8173_LUT_ET011TT2_GU,
+    UC8173_LUT_ET011TT2_A2,
+    UC8173_LUT_NONE
+};
 
 /**
  * \brief UC8173 Configuration structure.
@@ -340,7 +352,8 @@ enum eink_uc8173_display {
 struct uc8173_config {
     enum eink_display_rotation                  display_rotation;
     enum eink_update_mode                       update_mode;
-    enum eink_uc8173_display					uc8173_display;
+    enum eink_uc8173_display                    uc8173_display;
+    enum eink_uc8173_current_lut                uc8173_current_lut;
 };
 
 /**
@@ -423,6 +436,7 @@ static inline void uc8173_get_config_defaults(
     config->display_rotation = ROTATE_0;
     config->update_mode = UPDATE_SLOW;
     config->uc8173_display = UC8173_ED013TC1;
+    config->uc8173_current_lut = UC8173_LUT_NONE;
 }
 
 void uc8173_set_config(
@@ -432,25 +446,40 @@ void uc8173_measure_vcom(void);
 
 static inline void uc8173_send_ed013tc1_gc2_lut(void)
 {
-	eink_write_data(UC8173_LUT_KWVCOM, ED013TC1_VCOM_GC2, 32);
-	eink_write_data(UC8173_LUT_KW, ED013TC1_WF_GC2, 512);
-	eink_write_data(UC8173_LUT_FT, ED013TC1_FT_GC2, 128);
+	if(uc8173_global_instance.display_config.uc8173_current_lut != UC8173_LUT_ED013TC1_GC2)
+	{
+		uc8173_global_instance.display_config.uc8173_current_lut = UC8173_LUT_ED013TC1_GC2;
+		
+		eink_write_data(UC8173_LUT_KWVCOM, ED013TC1_VCOM_GC2, 32);
+		eink_write_data(UC8173_LUT_KW, ED013TC1_WF_GC2, 512);
+		eink_write_data(UC8173_LUT_FT, ED013TC1_FT_GC2, 128);	
+	}
 }
 
 static inline void uc8173_send_et011tt2_gu_lut(void)
 {
 	/* Upload update waveform - Note for demo purposes, only 25C waveforms are used */
-	eink_write_data(UC8173_LUT_KWVCOM, ET011TT2_KWVCOM_GU_LUT, 32);
-	eink_write_data(UC8173_LUT_KW, ET011TT2_KW_GU_LUT, 512);
-	eink_write_data(UC8173_LUT_FT, ET011TT2_FT_LUT, 128);
+	if(uc8173_global_instance.display_config.uc8173_current_lut != UC8173_LUT_ET011TT2_GU)
+	{
+		uc8173_global_instance.display_config.uc8173_current_lut = UC8173_LUT_ET011TT2_GU;
+			
+		eink_write_data(UC8173_LUT_KWVCOM, ET011TT2_KWVCOM_GU_LUT, 32);
+		eink_write_data(UC8173_LUT_KW, ET011TT2_KW_GU_LUT, 512);
+		eink_write_data(UC8173_LUT_FT, ET011TT2_FT_LUT, 128);
+	}
 }
 
 static inline void uc8173_send_et011tt2_a2_lut(void)
 {
 	/* Upload update waveform - Note for demo purposes, only 25C waveforms are used */
-	eink_write_data(UC8173_LUT_KWVCOM, ET011TT2_KWVCOM_A2_LUT, 32);
-	eink_write_data(UC8173_LUT_KW, ET011TT2_KW_A2_LUT, 512);
-	eink_write_data(UC8173_LUT_FT, ET011TT2_FT_LUT, 128);
+	if(uc8173_global_instance.display_config.uc8173_current_lut != UC8173_LUT_ET011TT2_A2)
+	{
+		uc8173_global_instance.display_config.uc8173_current_lut = UC8173_LUT_ET011TT2_A2;
+		
+		eink_write_data(UC8173_LUT_KWVCOM, ET011TT2_KWVCOM_A2_LUT, 32);
+		eink_write_data(UC8173_LUT_KW, ET011TT2_KW_A2_LUT, 512);
+		eink_write_data(UC8173_LUT_FT, ET011TT2_FT_LUT, 128);
+	}
 }
 /** @} */
 

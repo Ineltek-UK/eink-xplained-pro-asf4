@@ -93,10 +93,8 @@ void eink_et011tt2_init(struct uc8173_config *const config, bool clear_display)
 
     /* Allocated memory for display buffers */
     uint32_t malloc_size = GFX_ET011TT2_DISPLAY_BUFFER_SIZE * sizeof(uint8_t);
-    //et011tt2_dtm1_display_buffer = (uint8_t*) malloc (malloc_size);
     et011tt2_dtm2_display_buffer = (uint8_t*) malloc (malloc_size);
-    //eink_gfx_et011tt2_config.display_buffer_1_ptr = et011tt2_dtm1_display_buffer;
-    eink_gfx_et011tt2_config.display_buffer_2_ptr = et011tt2_dtm2_display_buffer;
+    eink_gfx_et011tt2_config.display_buffer_1_ptr = et011tt2_dtm2_display_buffer;
 
     /* Initialize the low-level display controller. */
     uc8173_init();
@@ -114,8 +112,7 @@ void eink_et011tt2_init(struct uc8173_config *const config, bool clear_display)
     /* Set both display buffers to all WHITE. */
     for (buffer_index = 0; buffer_index < GFX_ET011TT2_DISPLAY_BUFFER_SIZE; buffer_index++) {
         /* Note that if the memory size is too small, a hard fault will occur here */
-        //ptr_eink_gfx_config->display_buffer_1_ptr[buffer_index] = 0xFF; /* DTM1 is previous buffer */
-        ptr_eink_gfx_config->display_buffer_2_ptr[buffer_index] = 0xFF; /* DTM2 is current buffer */
+        ptr_eink_gfx_config->display_buffer_1_ptr[buffer_index] = 0xFF; /* DTM2 is current buffer */
     }
 	
     /* Data Transmission Window */
@@ -127,7 +124,7 @@ void eink_et011tt2_init(struct uc8173_config *const config, bool clear_display)
     eink_data[5] = 0xEF;
     eink_write_data(UC8173_DTMW, eink_data, 6);
 	/* Send both display empty buffers */
-	eink_write_data(UC8173_DTM1, ptr_eink_gfx_config->display_buffer_2_ptr, GFX_ET011TT2_DISPLAY_BUFFER_SIZE);
+	eink_write_data(UC8173_DTM1, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_ET011TT2_DISPLAY_BUFFER_SIZE);
 	
 	/* Data Transmission Window */
 	eink_data[0] = 0x00;
@@ -138,7 +135,7 @@ void eink_et011tt2_init(struct uc8173_config *const config, bool clear_display)
 	eink_data[5] = 0xEF;
 	eink_write_data(UC8173_DTMW, eink_data, 6);
 	/* Send both display empty buffers */
-	eink_write_data(UC8173_DTM2, ptr_eink_gfx_config->display_buffer_2_ptr, GFX_ET011TT2_DISPLAY_BUFFER_SIZE);
+	eink_write_data(UC8173_DTM2, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_ET011TT2_DISPLAY_BUFFER_SIZE);
 	
     /* Send both display buffers to the display and update if requested. */
     if(clear_display) eink_et011tt2_put_display_buffer(true);
@@ -168,16 +165,11 @@ void eink_et011tt2_put_display_buffer(bool refresh_display)
     eink_write_data(UC8173_DTMW, eink_data, 6);
 
     /* Update the DTM1 register with the display buffer */
-    eink_write_data(UC8173_DTM2, ptr_eink_gfx_config->display_buffer_2_ptr, GFX_ET011TT2_DISPLAY_BUFFER_SIZE);
+    eink_write_data(UC8173_DTM2, ptr_eink_gfx_config->display_buffer_1_ptr, GFX_ET011TT2_DISPLAY_BUFFER_SIZE);
 	
     if(refresh_display) {
         eink_et011tt2_refresh_display_buffer();
     }
-
-    /* Copy the current display buffer into the previous display buffer */
-    //for (i=0;i<GFX_ET011TT2_DISPLAY_BUFFER_SIZE;i++) {
-    //    ptr_eink_gfx_config->display_buffer_1_ptr[i] = ptr_eink_gfx_config->display_buffer_2_ptr[i];
-    //}
 }
 
 /**
@@ -195,7 +187,7 @@ void eink_et011tt2_set_pixel(eink_coordinate x_set, eink_coordinate y_set, enum 
             break;
         default:
         case PIXEL_WHITE:
-            eink_et011tt2_set_pixel_raw(x_set, y_set, 0xF);
+            eink_et011tt2_set_pixel_raw(x_set, y_set, 0x3);
             break;
     }
 }
@@ -212,7 +204,6 @@ void eink_et011tt2_set_pixel_raw(eink_coordinate x_set, eink_coordinate y_set, u
 	uint32_t y1_set, x1_set, byte_set;
     uint8_t bit_set, pixel_set_1 = 1, pixel_set_2 = 1;
     uint8_t height_bytes = uc8173_global_instance.display_height / 4;
-    //uint8_t width_bytes = uc8173_global_instance.display_width / 8;
     
     /* Ignore any pixels being set outside of the display window */
     if ( (x_set >= 0) && (x_set < uc8173_global_instance.display_width) && (y_set >= 0) && (y_set < uc8173_global_instance.display_height) ) {
@@ -223,8 +214,8 @@ void eink_et011tt2_set_pixel_raw(eink_coordinate x_set, eink_coordinate y_set, u
         /* Calculate which bit in that byte the pixel in question is */
         bit_set = (y_set % 4) * 2;
 
-		eink_set_bit(&ptr_eink_gfx_config->display_buffer_2_ptr[byte_set], bit_set, (pixel_set & 0x1));
-		eink_set_bit(&ptr_eink_gfx_config->display_buffer_2_ptr[byte_set], bit_set+1, ((pixel_set >> 1) & 0x1));
+		eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set, (pixel_set & 0x1));
+		eink_set_bit(&ptr_eink_gfx_config->display_buffer_1_ptr[byte_set], bit_set+1, ((pixel_set >> 1) & 0x1));
 	}
 }
 
@@ -271,6 +262,48 @@ void eink_et011tt2_graphics_load_mono_image(uint8_t *img_array, uint16_t array_s
                 }
                 m++;
             }
+        }
+    }
+    return;
+}
+
+/**
+ * \brief Draws a greyscale bitmap onto the display canvas.
+ *
+ * This function draws a greyscale bitmap onto the canvas, specified by a width (in px) and height (in bytes),
+ * starting at coordinates x and y.
+ * 
+ * \note The data bytes in the bitmap are translated vertically (non-paged) - bytes should be 4 pixels
+ * per byte, big endian.
+ * 
+ * \param *img_array Pointer to bitmap array.
+ * \param array_size Bitmap array size.
+ * \param image_width_px Width of the bitmap in px.
+ * \param image_height_bytes Height of the bitmap in bytes - therefore bitmap array must have a height
+ *                           as a multiple of 8.
+ * \param x_place X location to place with bitmap.
+ * \param y_place Y location to place with bitmap.
+ */
+void eink_et011tt2_graphics_load_2bgrey_image(uint8_t *img_array, uint16_t array_size, eink_coordinate image_width_px, eink_coordinate image_height_bytes, eink_coordinate x_place, eink_coordinate y_place)
+{
+    uint16_t buffer_index, i, j;
+    uint16_t k, l, m, bit_value[4];
+    
+    /* Scan pixels by column */
+    for (i = 0; i < image_width_px; i++) {
+        m = 0;
+        for (j = (image_height_bytes-1); j > 0; j--) {
+            /* Process each pixel in byte  */
+            bit_value[0] = ((img_array[(i*image_height_bytes)+j]) & 0x3);
+            bit_value[1] = ((img_array[(i*image_height_bytes)+j] >> 2) & 0x3);
+            bit_value[2] = ((img_array[(i*image_height_bytes)+j] >> 4) & 0x3);
+            bit_value[3] = ((img_array[(i*image_height_bytes)+j] >> 6) & 0x3);
+            /* Set the pixel in the display buffer */
+            eink_et011tt2_set_pixel_raw((x_place+i), (y_place+m), (~bit_value[0]));
+            eink_et011tt2_set_pixel_raw((x_place+i), (y_place+m+1), (~bit_value[1]));
+            eink_et011tt2_set_pixel_raw((x_place+i), (y_place+m+2), (~bit_value[2]));
+            eink_et011tt2_set_pixel_raw((x_place+i), (y_place+m+3), (~bit_value[3]));
+            m += 4;
         }
     }
     return;

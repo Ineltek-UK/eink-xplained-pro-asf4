@@ -93,7 +93,7 @@ extern "C" {
 
 //! \name ET011TT2 display buffers 
 //@{
-volatile uint8_t *et011tt2_dtm1_display_buffer, *et011tt2_dtm2_display_buffer;
+volatile uint8_t *et011tt2_dtm2_display_buffer; //*et011tt2_dtm1_display_buffer, 
 //@}
 
 //! \name ET011TT2 display initialization function
@@ -163,14 +163,14 @@ void eink_et011tt2_graphics_load_mono_image(
         eink_coordinate y_place,
         enum eink_pixel_colour foreground_colour,
         enum eink_pixel_colour background_colour);
-/*       
-void eink_ed028tc1_graphics_load_4bgrey_image(
+
+void eink_et011tt2_graphics_load_2bgrey_image(
         uint8_t *img_array,
         uint16_t array_size,
         eink_coordinate image_width_px,
         eink_coordinate image_height_bytes,
         eink_coordinate x_place,
-        eink_coordinate y_place);*/
+        eink_coordinate y_place);
 //@}
 
 #ifdef __cplusplus

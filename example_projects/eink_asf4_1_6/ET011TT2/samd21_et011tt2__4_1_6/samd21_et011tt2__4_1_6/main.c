@@ -76,40 +76,61 @@
 
 //Add any additional fonts needed
 #include <ArvoBold/ArvoBold_18pt.h>
+#include <RobotoBold/RobotoBold_76pt.h>
 
 //And any bitmaps
+#include <gsephelec_2bGrey.h>
 
 //Function prototypes
 void eink_init_display();
 //void eink_draw_display(uint8_t display_no);
 
-
-
 int main (void)
 {
-	uint8_t eink_data[7];
+	uint8_t eink_data[7], i=10;
+	char writeText[16];
 	
 	system_init();
 	
 	eink_init_display();
-
-	gfx_eink_graphics_fill_screen(FILL_WHITE);
-	gfx_eink_text_write_string_raw("Hello World!", 30, 80, 0x1, ArvoBold_18pt);
-	gfx_eink_text_write_string_raw("Hello World!", 30, 110, 0x2, ArvoBold_18pt);
+	
+	gfx_eink_graphics_fill_screen_raw(0xFF);
+	
+	eink_et011tt2_graphics_load_2bgrey_image(eink_GSephElecLogo_2bGrey, sizeof(eink_GSephElecLogo_2bGrey), eink_GSephElecLogo_2bGrey_width_px, eink_GSephElecLogo_2bGrey_height_bytes, 40, 68);
+	//gfx_eink_text_write_string_raw("Hello World!", 30, 80, 0x1, ArvoBold_18pt);
+	//gfx_eink_text_write_string_raw("Hello World!", 30, 110, 0x2, ArvoBold_18pt);
 	
 	uc8173_global_instance.display_config.update_mode = UPDATE_SLOW;
-	eink_et011tt2_put_display_buffer(true);
-	
-	gfx_eink_text_write_string_raw("Hello World!", 30, 140, 0x0, ArvoBold_18pt);
-	
-	uc8173_global_instance.display_config.update_mode = UPDATE_FAST;
-	eink_et011tt2_put_display_buffer(true);
-	
-	
-	//gfx_eink_put_display_buffer(true);
-	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);	
-	
+	gfx_eink_put_display_buffer(true);
+
+	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
 	while(1);
+
+	/*gfx_eink_graphics_fill_screen(FILL_WHITE);	
+	sprintf(writeText, "%d", i);
+	gfx_eink_text_write_string_raw(writeText, 62, 52, 0x0, RobotoBold_76pt);
+	
+	gfx_eink_put_display_buffer(true);
+	
+	
+	for(uint8_t i = 11; i < 20; i++)
+	{
+		gfx_eink_graphics_draw_rect(50, 70, 140, 100, PIXEL_NONE, FILL_WHITE);
+		sprintf(writeText, "%d", i);
+		gfx_eink_text_write_string_raw(writeText, 62, 52, 0x0, RobotoBold_76pt);
+	
+		uc8173_global_instance.display_config.update_mode = UPDATE_FAST;
+		gfx_eink_put_display_buffer(true);
+	}
+	
+	uc8173_global_instance.display_config.update_mode = UPDATE_SLOW;
+	gfx_eink_put_display_buffer(true);
+	
+	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);	
+	*/
+	
+	//gfx_eink_text_write_string_raw("Hello World!", 30, 80, 0x1, ArvoBold_18pt);
+	//gfx_eink_text_write_string_raw("Hello World!", 30, 110, 0x2, ArvoBold_18pt);
 }
 
 void eink_init_display(void)
@@ -117,6 +138,7 @@ void eink_init_display(void)
 	struct uc8173_config eink_conf;
 	
 	uc8173_get_config_defaults(&eink_conf);
-	eink_conf.display_rotation = ROTATE_0;
+	eink_conf.display_rotation = ROTATE_90;
+	eink_conf.update_mode = UPDATE_SLOW;
 	eink_et011tt2_init(&eink_conf, false);
 }

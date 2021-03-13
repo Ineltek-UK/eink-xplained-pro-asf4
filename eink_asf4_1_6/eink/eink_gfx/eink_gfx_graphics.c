@@ -118,6 +118,11 @@ void gfx_eink_graphics_fill_screen(enum eink_fill_colour fill_color)
                     case FILL_RED:    gfx_eink_set_pixel(dx, dy, PIXEL_RED); break;
                 }
             }
+			
+			if((dx == 239) && (dy == 239))
+			{
+				 gfx_eink_set_pixel(dx, dy, PIXEL_WHITE);
+			}
         }
     }
 }

@@ -153,7 +153,9 @@ main.d main.o: .././main.c ../atmel_start.h ../driver_init.h \
  ../../../../../../eink_asf4_1_6/eink/eink_gfx/eink_gfx_graphics.c \
  ../../../../../../eink_asf4_1_6/eink/eink_gfx/eink_gfx_text.c \
  ../../../../../../eink_asf4_1_6/eink/eink_gfx/eink_gfx_text.h \
- ../../../../../../eink_asf4_1_6/fonts/ArvoBold/ArvoBold_18pt.h
+ ../../../../../../eink_asf4_1_6/fonts/ArvoBold/ArvoBold_18pt.h \
+ ../../../../../../eink_asf4_1_6/fonts/RobotoBold/RobotoBold_76pt.h \
+ ../../../../../../eink_asf4_1_6/gsephelec_2bGrey.h
 
 ../atmel_start.h:
 
@@ -516,3 +518,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../../../../../../eink_asf4_1_6/eink/eink_gfx/eink_gfx_text.h:
 
 ../../../../../../eink_asf4_1_6/fonts/ArvoBold/ArvoBold_18pt.h:
+
+../../../../../../eink_asf4_1_6/fonts/RobotoBold/RobotoBold_76pt.h:
+
+../../../../../../eink_asf4_1_6/gsephelec_2bGrey.h:
