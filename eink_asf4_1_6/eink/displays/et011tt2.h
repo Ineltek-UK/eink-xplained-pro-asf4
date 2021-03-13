@@ -114,10 +114,16 @@ static inline void eink_et011tt2_refresh_display_buffer(void)
     uint8_t eink_data[7];
     
     /* Enable power to the display */   
-    eink_write_data(UC8173_PON, 0, 0);
-    uc8173_wait_for_busy_low();
+    //eink_write_data(UC8173_PON, 0, 0);
+    //uc8173_wait_for_busy_low();
     
-    uc8173_send_a2_lut();
+	/* Upload update waveforms */
+	if(uc8173_global_instance.display_config.update_mode == UPDATE_FAST)
+    {
+		uc8173_send_et011tt2_gu_lut();
+    } else {
+		uc8173_send_et011tt2_a2_lut();
+    }
 	
     /* Display Refresh */
     eink_data[0] = 0x00; /* GU2 Update Mode */

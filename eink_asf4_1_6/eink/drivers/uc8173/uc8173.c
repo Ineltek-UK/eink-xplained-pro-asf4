@@ -204,7 +204,7 @@ void uc8173_set_config(
 	eink_write_data(UC8173_GDS, eink_data, 5);
   
 	//uc8173_measure_vcom();
-	
+	/* Set's VCOM value automatically for demo purposes, but should be read from display */
 	eink_data[0] = 0x26;
 	eink_write_data(UC8173_VDCS, eink_data, 1);
 	eink_write_data(UC8173_VBDS, eink_data, 1);

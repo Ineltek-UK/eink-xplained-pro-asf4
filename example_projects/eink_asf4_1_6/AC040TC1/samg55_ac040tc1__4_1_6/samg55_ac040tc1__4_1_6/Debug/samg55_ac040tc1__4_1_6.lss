@@ -7652,7 +7652,7 @@ void eink_draw_display(uint8_t display_no)
   4032b8:	2108      	movs	r1, #8
   4032ba:	487a      	ldr	r0, [pc, #488]	; (4034a4 <eink_draw_display+0x2f4>)
   4032bc:	47b8      	blx	r7
-			gfx_eink_graphics_draw_rect(432, 77, 150, 100, PIXEL_BLACK, FILL_WHITE);
+			gfx_eink_graphics_draw_rect(462, 77, 150, 100, PIXEL_BLACK, FILL_WHITE);
   4032be:	2301      	movs	r3, #1
   4032c0:	9301      	str	r3, [sp, #4]
   4032c2:	f04f 0800 	mov.w	r8, #0
@@ -7660,10 +7660,10 @@ void eink_draw_display(uint8_t display_no)
   4032ca:	2364      	movs	r3, #100	; 0x64
   4032cc:	2296      	movs	r2, #150	; 0x96
   4032ce:	214d      	movs	r1, #77	; 0x4d
-  4032d0:	f44f 70d8 	mov.w	r0, #432	; 0x1b0
+  4032d0:	f44f 70e7 	mov.w	r0, #462	; 0x1ce
   4032d4:	f8df a1f4 	ldr.w	sl, [pc, #500]	; 4034cc <eink_draw_display+0x31c>
   4032d8:	47d0      	blx	sl
-			gfx_eink_graphics_draw_rect(432, 77, 51, 100, PIXEL_NONE, FILL_BLUE);
+			gfx_eink_graphics_draw_rect(462, 77, 51, 100, PIXEL_NONE, FILL_BLUE);
   4032da:	2305      	movs	r3, #5
   4032dc:	9301      	str	r3, [sp, #4]
   4032de:	2608      	movs	r6, #8
@@ -7671,39 +7671,39 @@ void eink_draw_display(uint8_t display_no)
   4032e2:	2364      	movs	r3, #100	; 0x64
   4032e4:	2233      	movs	r2, #51	; 0x33
   4032e6:	214d      	movs	r1, #77	; 0x4d
-  4032e8:	f44f 70d8 	mov.w	r0, #432	; 0x1b0
+  4032e8:	f44f 70e7 	mov.w	r0, #462	; 0x1ce
   4032ec:	47d0      	blx	sl
-			gfx_eink_graphics_draw_rect(531, 77, 51, 100, PIXEL_NONE, FILL_RED);
+			gfx_eink_graphics_draw_rect(561, 77, 51, 100, PIXEL_NONE, FILL_RED);
   4032ee:	f04f 0902 	mov.w	r9, #2
   4032f2:	f8cd 9004 	str.w	r9, [sp, #4]
   4032f6:	9600      	str	r6, [sp, #0]
   4032f8:	2364      	movs	r3, #100	; 0x64
   4032fa:	2233      	movs	r2, #51	; 0x33
   4032fc:	214d      	movs	r1, #77	; 0x4d
-  4032fe:	f240 2013 	movw	r0, #531	; 0x213
+  4032fe:	f240 2031 	movw	r0, #561	; 0x231
   403302:	47d0      	blx	sl
-			gfx_eink_text_write_string("25p", 51, 167, PIXEL_ORANGE, RobotoBold_76pt);
+			gfx_eink_text_write_string("25p", 51, 137, PIXEL_ORANGE, RobotoBold_76pt);
   403304:	f504 7336 	add.w	r3, r4, #728	; 0x2d8
   403308:	cb0f      	ldmia	r3, {r0, r1, r2, r3}
   40330a:	e88d 000f 	stmia.w	sp, {r0, r1, r2, r3}
   40330e:	2306      	movs	r3, #6
-  403310:	22a7      	movs	r2, #167	; 0xa7
+  403310:	2289      	movs	r2, #137	; 0x89
   403312:	2133      	movs	r1, #51	; 0x33
   403314:	4864      	ldr	r0, [pc, #400]	; (4034a8 <eink_draw_display+0x2f8>)
   403316:	47b8      	blx	r7
-			gfx_eink_text_write_string("/ea", 234, 236, PIXEL_BLACK, RobotoMedium_24pt);
+			gfx_eink_text_write_string("/ea", 234, 206, PIXEL_BLACK, RobotoMedium_24pt);
   403318:	e895 000f 	ldmia.w	r5, {r0, r1, r2, r3}
   40331c:	e88d 000f 	stmia.w	sp, {r0, r1, r2, r3}
   403320:	4643      	mov	r3, r8
-  403322:	22ec      	movs	r2, #236	; 0xec
+  403322:	22ce      	movs	r2, #206	; 0xce
   403324:	21ea      	movs	r1, #234	; 0xea
   403326:	4861      	ldr	r0, [pc, #388]	; (4034ac <eink_draw_display+0x2fc>)
   403328:	47b8      	blx	r7
-			gfx_eink_load_mono_image(&eink_ApplesBarcode, sizeof(eink_ApplesBarcode), eink_ApplesBarcode_width_px, eink_ApplesBarcode_height_bytes, 33, 337, PIXEL_GREEN, PIXEL_NONE);
+			gfx_eink_load_mono_image(&eink_ApplesBarcode, sizeof(eink_ApplesBarcode), eink_ApplesBarcode_width_px, eink_ApplesBarcode_height_bytes, 33, 277, PIXEL_GREEN, PIXEL_NONE);
   40332a:	9603      	str	r6, [sp, #12]
   40332c:	f04f 0a04 	mov.w	sl, #4
   403330:	f8cd a008 	str.w	sl, [sp, #8]
-  403334:	f240 1351 	movw	r3, #337	; 0x151
+  403334:	f240 1315 	movw	r3, #277	; 0x115
   403338:	9301      	str	r3, [sp, #4]
   40333a:	2321      	movs	r3, #33	; 0x21
   40333c:	9300      	str	r3, [sp, #0]
@@ -7713,20 +7713,20 @@ void eink_draw_display(uint8_t display_no)
   403346:	485a      	ldr	r0, [pc, #360]	; (4034b0 <eink_draw_display+0x300>)
   403348:	4d4c      	ldr	r5, [pc, #304]	; (40347c <eink_draw_display+0x2cc>)
   40334a:	47a8      	blx	r5
-			gfx_eink_text_write_string("0000", 60, 415, PIXEL_GREEN, RobotoBold_18pt);
+			gfx_eink_text_write_string("0000", 60, 355, PIXEL_GREEN, RobotoBold_18pt);
   40334c:	f504 7426 	add.w	r4, r4, #664	; 0x298
   403350:	e894 000f 	ldmia.w	r4, {r0, r1, r2, r3}
   403354:	e88d 000f 	stmia.w	sp, {r0, r1, r2, r3}
   403358:	4653      	mov	r3, sl
-  40335a:	f240 129f 	movw	r2, #415	; 0x19f
+  40335a:	f240 1263 	movw	r2, #355	; 0x163
   40335e:	213c      	movs	r1, #60	; 0x3c
   403360:	4854      	ldr	r0, [pc, #336]	; (4034b4 <eink_draw_display+0x304>)
   403362:	47b8      	blx	r7
-			gfx_eink_text_write_string("9539", 160, 415, PIXEL_GREEN, RobotoBold_18pt);
+			gfx_eink_text_write_string("9539", 160, 355, PIXEL_GREEN, RobotoBold_18pt);
   403364:	e894 000f 	ldmia.w	r4, {r0, r1, r2, r3}
   403368:	e88d 000f 	stmia.w	sp, {r0, r1, r2, r3}
   40336c:	4653      	mov	r3, sl
-  40336e:	f240 129f 	movw	r2, #415	; 0x19f
+  40336e:	f240 1263 	movw	r2, #355	; 0x163
   403372:	21a0      	movs	r1, #160	; 0xa0
   403374:	4850      	ldr	r0, [pc, #320]	; (4034b8 <eink_draw_display+0x308>)
   403376:	47b8      	blx	r7

@@ -150,16 +150,16 @@ void eink_draw_display(uint8_t display_no)
 			gfx_eink_text_write_string("France", 7, 62, PIXEL_BLUE, RobotoMedium_30pt);
 			gfx_eink_text_write_string("Loose, single", 8, 107, PIXEL_BLACK, RobotoMedium_24pt);
 			/* French flag */
-			gfx_eink_graphics_draw_rect(432, 77, 150, 100, PIXEL_BLACK, FILL_WHITE);
-			gfx_eink_graphics_draw_rect(432, 77, 51, 100, PIXEL_NONE, FILL_BLUE);
-			gfx_eink_graphics_draw_rect(531, 77, 51, 100, PIXEL_NONE, FILL_RED);
+			gfx_eink_graphics_draw_rect(462, 77, 150, 100, PIXEL_BLACK, FILL_WHITE);
+			gfx_eink_graphics_draw_rect(462, 77, 51, 100, PIXEL_NONE, FILL_BLUE);
+			gfx_eink_graphics_draw_rect(561, 77, 51, 100, PIXEL_NONE, FILL_RED);
 			
-			gfx_eink_text_write_string("25p", 51, 167, PIXEL_ORANGE, RobotoBold_76pt);
-			gfx_eink_text_write_string("/ea", 234, 236, PIXEL_BLACK, RobotoMedium_24pt);
+			gfx_eink_text_write_string("25p", 51, 137, PIXEL_ORANGE, RobotoBold_76pt);
+			gfx_eink_text_write_string("/ea", 234, 206, PIXEL_BLACK, RobotoMedium_24pt);
 			/* Apples Barcode */
-			gfx_eink_load_mono_image(&eink_ApplesBarcode, sizeof(eink_ApplesBarcode), eink_ApplesBarcode_width_px, eink_ApplesBarcode_height_bytes, 33, 337, PIXEL_GREEN, PIXEL_NONE);
-			gfx_eink_text_write_string("0000", 60, 415, PIXEL_GREEN, RobotoBold_18pt);
-			gfx_eink_text_write_string("9539", 160, 415, PIXEL_GREEN, RobotoBold_18pt);
+			gfx_eink_load_mono_image(&eink_ApplesBarcode, sizeof(eink_ApplesBarcode), eink_ApplesBarcode_width_px, eink_ApplesBarcode_height_bytes, 33, 277, PIXEL_GREEN, PIXEL_NONE);
+			gfx_eink_text_write_string("0000", 60, 355, PIXEL_GREEN, RobotoBold_18pt);
+			gfx_eink_text_write_string("9539", 160, 355, PIXEL_GREEN, RobotoBold_18pt);
 			/* Apples Bitmap */
 			gfx_eink_load_mono_image(&eink_ApplesColour_Bla, sizeof(eink_ApplesColour_Bla), eink_ApplesColour_width_px, eink_ApplesColour_height_bytes, 315, 208, PIXEL_BLACK, PIXEL_NONE);
 			gfx_eink_load_mono_image(&eink_ApplesColour_Gre, sizeof(eink_ApplesColour_Gre), eink_ApplesColour_width_px, eink_ApplesColour_height_bytes, 315, 208, PIXEL_GREEN, PIXEL_NONE);

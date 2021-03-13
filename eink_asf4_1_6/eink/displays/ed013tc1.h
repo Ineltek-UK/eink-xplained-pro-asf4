@@ -117,7 +117,7 @@ static inline void eink_ed013tc1_refresh_display_buffer(void)
     eink_write_data(UC8173_PON, 0, 0);
     uc8173_wait_for_busy_low();
     
-    uc8173_send_gu2_lut();
+    uc8173_send_ed013tc1_gc2_lut();
 	
     /* Display Refresh */
     eink_data[0] = 0x01; /* GU2 Update Mode */
