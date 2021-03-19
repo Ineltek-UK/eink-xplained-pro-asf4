@@ -138,10 +138,12 @@ main.d main.o: .././main.c ../atmel_start.h ../driver_init.h \
  ../driver_init.h \
  ../../../../../../eink_asf4_1_6/eink/drivers/uc8173/uc8173.c \
  ../../../../../../eink_asf4_1_6/eink/drivers/uc8173/uc8173.h \
- ../../../../../../eink_asf4_1_6/eink/displays/ed013tc1.c \
- ../../../../../../eink_asf4_1_6/eink/displays/ed013tc1.h \
+ ../../../../../../eink_asf4_1_6/eink/displays/et011tt2.c \
+ ../../../../../../eink_asf4_1_6/eink/displays/et011tt2.h \
  ../../../../../../eink_asf4_1_6/eink/eink_gfx/eink_gfx.h \
  ../../../../../../eink_asf4_1_6/eink/eink_gfx/eink_gfx_graphics.h \
+ ../../../../../../eink_asf4_1_6/eink/displays/ed013tc1.c \
+ ../../../../../../eink_asf4_1_6/eink/displays/ed013tc1.h \
  ../../../../../../eink_asf4_1_6/eink/drivers/uc8151/uc8151.c \
  ../../../../../../eink_asf4_1_6/eink/drivers/uc8151/uc8151.h \
  ../../../../../../eink_asf4_1_6/eink/displays/ed029tc1.c \
@@ -155,6 +157,8 @@ main.d main.o: .././main.c ../atmel_start.h ../driver_init.h \
  ../../../../../../eink_asf4_1_6/eink/displays/hink_e0154a45.c \
  ../../../../../../eink_asf4_1_6/eink/drivers/uc8159/uc8159.c \
  ../../../../../../eink_asf4_1_6/eink/drivers/uc8159/uc8159.h \
+ ../../../../../../eink_asf4_1_6/eink/displays/ac040tc1.c \
+ ../../../../../../eink_asf4_1_6/eink/displays/ac040tc1.h \
  ../../../../../../eink_asf4_1_6/eink/displays/ac057tc1.c \
  ../../../../../../eink_asf4_1_6/eink/displays/ac057tc1.h \
  ../../../../../../eink_asf4_1_6/eink/displays/ed057tc2.c \
@@ -193,7 +197,8 @@ main.d main.o: .././main.c ../atmel_start.h ../driver_init.h \
  ../../../../../../eink_asf4_1_6/fonts/RobotoMedium/RobotoMedium_14pt.h \
  ../../../../../../eink_asf4_1_6/ineltek_logo.h \
  ../../../../../../eink_asf4_1_6/kanban_barcode.h \
- ../../../../../../eink_asf4_1_6/shipping_barcode.h
+ ../../../../../../eink_asf4_1_6/shipping_barcode.h \
+ ../../../../../../eink_asf4_1_6/gsephelec_2bGrey.h
 
 ../atmel_start.h:
 
@@ -533,13 +538,17 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 
 ../../../../../../eink_asf4_1_6/eink/drivers/uc8173/uc8173.h:
 
-../../../../../../eink_asf4_1_6/eink/displays/ed013tc1.c:
+../../../../../../eink_asf4_1_6/eink/displays/et011tt2.c:
 
-../../../../../../eink_asf4_1_6/eink/displays/ed013tc1.h:
+../../../../../../eink_asf4_1_6/eink/displays/et011tt2.h:
 
 ../../../../../../eink_asf4_1_6/eink/eink_gfx/eink_gfx.h:
 
 ../../../../../../eink_asf4_1_6/eink/eink_gfx/eink_gfx_graphics.h:
+
+../../../../../../eink_asf4_1_6/eink/displays/ed013tc1.c:
+
+../../../../../../eink_asf4_1_6/eink/displays/ed013tc1.h:
 
 ../../../../../../eink_asf4_1_6/eink/drivers/uc8151/uc8151.c:
 
@@ -566,6 +575,10 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../../../../../../eink_asf4_1_6/eink/drivers/uc8159/uc8159.c:
 
 ../../../../../../eink_asf4_1_6/eink/drivers/uc8159/uc8159.h:
+
+../../../../../../eink_asf4_1_6/eink/displays/ac040tc1.c:
+
+../../../../../../eink_asf4_1_6/eink/displays/ac040tc1.h:
 
 ../../../../../../eink_asf4_1_6/eink/displays/ac057tc1.c:
 
@@ -644,3 +657,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../../../../../../eink_asf4_1_6/kanban_barcode.h:
 
 ../../../../../../eink_asf4_1_6/shipping_barcode.h:
+
+../../../../../../eink_asf4_1_6/gsephelec_2bGrey.h:

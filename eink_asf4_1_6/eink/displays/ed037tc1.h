@@ -93,7 +93,7 @@ extern "C" {
 
 //! \name ED037TC1 display buffers 
 //@{
-volatile uint8_t *ed037tc1_dtm1_display_buffer;
+volatile uint8_t *ed037tc1_dtm1_display_buffer, *ed037tc1_dtm2_display_buffer;
 //@}
 
 //! \name ED037TC1 display initialization function
@@ -111,6 +111,8 @@ void eink_ed037tc1_init(
  */
 static inline void eink_ed037tc1_refresh_display_buffer(void)
 {
+	uint8_t eink_data[1];
+	
     /* Upload update waveform - Note for demo purposes, only 25C waveforms are used */
     if(ssd1677_global_instance.panel_settings.update_mode == UPDATE_SLOW)
     {
@@ -118,11 +120,13 @@ static inline void eink_ed037tc1_refresh_display_buffer(void)
     } else {
         eink_write_data(SSD1677_LUT_REG, ED037TC1_DU_LUT, 105); /* Fast Update */
     }
+    
+    eink_data[0] = 0xCF;
+    eink_write_data(SSD1677_DSP_SEQ, eink_data, 1);
+	
     /* Display Update */
     eink_write_data(SSD1677_DSP_ACT, 0, 0);
-#ifdef EINK_BUSY    
-    while(gpio_get_pin_level(EINK_BUSY));
-#endif
+	ssd1677_wait_for_busy();
 }
 
 void eink_ed037tc1_put_display_buffer(
@@ -139,6 +143,12 @@ void eink_ed037tc1_set_pixel(
         eink_coordinate y_set,
         enum eink_pixel_colour pixel_colour);
 
+
+void eink_ed037tc1_set_pixel_raw(
+		eink_coordinate x_set,
+		eink_coordinate y_set,
+		uint8_t pixel_set);
+
 void eink_ed037tc1_graphics_load_mono_image(
         uint8_t *img_array,
         uint16_t array_size,
@@ -148,6 +158,14 @@ void eink_ed037tc1_graphics_load_mono_image(
         eink_coordinate y_place,
         enum eink_pixel_colour foreground_colour,
         enum eink_pixel_colour background_colour);
+
+void eink_ed037tc1_graphics_load_2bgrey_image(
+		uint8_t *img_array,
+		uint16_t array_size,
+		eink_coordinate image_width_px,
+		eink_coordinate image_height_bytes,
+		eink_coordinate x_place,
+		eink_coordinate y_place);
 //@}
 
 #ifdef __cplusplus

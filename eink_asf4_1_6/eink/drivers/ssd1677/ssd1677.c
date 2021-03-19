@@ -160,7 +160,7 @@ void ssd1677_set_config(
     eink_write_data(SSD1677_VCOM_WT, eink_data, 1);
     
     //Display Options
-    eink_data[0] = 0x00;
+    /*eink_data[0] = 0x00;
     eink_data[1] = 0xFF;
     eink_data[2] = 0xFF;
     eink_data[3] = 0xFF;
@@ -169,7 +169,17 @@ void ssd1677_set_config(
     eink_data[6] = 0xFF;
     eink_data[7] = 0xFF;
     eink_data[8] = 0xFF;
-    eink_data[9] = 0xFF;
+    eink_data[9] = 0xFF;*/
+	eink_data[0] = 0x00;
+	eink_data[1] = 0x00;
+	eink_data[2] = 0x00;
+	eink_data[3] = 0x00;
+	eink_data[4] = 0x00;
+	eink_data[5] = 0x00;
+	eink_data[6] = 0x00;
+	eink_data[7] = 0x00;
+	eink_data[8] = 0x00;
+	eink_data[9] = 0x00;
     eink_write_data(SSD1677_DIS_OPT, eink_data, 10);
 
     //X RAM Start/End Position
@@ -185,9 +195,14 @@ void ssd1677_set_config(
     eink_data[2] = 0xDF;
     eink_data[3] = 0x01;
     eink_write_data(SSD1677_Y_ADDR, eink_data, 4);
-    
-    eink_data[0] = 0xCF;
-    eink_write_data(SSD1677_DSP_SEQ, eink_data, 1);
+
+    eink_data[0] = 0x00;
+    eink_data[1] = 0x00;
+    eink_write_data(SSD1677_X_ADDRC, eink_data, 2);
+
+    eink_data[0] = 0x00;
+    eink_data[1] = 0x00;
+    eink_write_data(SSD1677_Y_ADDRC, eink_data, 2);
 
     /* Copy configuration into UC8151 instance */
     ssd1677_global_instance.panel_settings = *config;

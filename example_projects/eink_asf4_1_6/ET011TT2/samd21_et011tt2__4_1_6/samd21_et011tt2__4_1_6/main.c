@@ -102,7 +102,7 @@ int main (void)
 	
 	delay_ms(1000);
 	
-	eink_et011tt2_graphics_load_2bgrey_image(eink_GSephElecLogo_2bGrey, sizeof(eink_GSephElecLogo_2bGrey), eink_GSephElecLogo_2bGrey_width_px, eink_GSephElecLogo_2bGrey_height_bytes, 40, 68);
+	gfx_eink_load_4bgrey_image(eink_GSephElecLogo_2bGrey, sizeof(eink_GSephElecLogo_2bGrey), eink_GSephElecLogo_2bGrey_width_px, eink_GSephElecLogo_2bGrey_height_bytes, 40, 68);
 	
 	uc8173_global_instance.display_config.update_mode = UPDATE_SLOW;
 	gfx_eink_put_display_buffer(true);

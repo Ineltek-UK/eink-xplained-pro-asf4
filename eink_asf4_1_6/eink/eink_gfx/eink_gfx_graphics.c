@@ -78,7 +78,17 @@
 void gfx_eink_graphics_fill_screen_raw(uint8_t fill_value)
 {
     /* Fill entire display buffer. */
-    memset(ptr_eink_gfx_config->display_buffer_1_ptr, fill_value, ptr_eink_gfx_config->display_buffer_size);
+    eink_coordinate dx, width_fill;
+    eink_coordinate dy, height_fill;
+    
+    width_fill = ptr_eink_gfx_config->display_width;
+    height_fill = ptr_eink_gfx_config->display_height;
+    
+    for(dx = 0; dx < width_fill; dx++) {
+        for(dy = 0; dy < height_fill; dy++) {
+            gfx_eink_set_pixel_raw(dx, dy, fill_value);
+        }
+    }
 }
 
 /**
@@ -90,8 +100,8 @@ void gfx_eink_graphics_fill_screen_raw(uint8_t fill_value)
  */
 void gfx_eink_graphics_fill_screen(enum eink_fill_colour fill_color)
 {
-    volatile eink_coordinate dx, width_fill;
-    volatile eink_coordinate dy, height_fill;
+    eink_coordinate dx, width_fill;
+    eink_coordinate dy, height_fill;
     
     width_fill = ptr_eink_gfx_config->display_width;
     height_fill = ptr_eink_gfx_config->display_height;
@@ -118,11 +128,6 @@ void gfx_eink_graphics_fill_screen(enum eink_fill_colour fill_color)
                     case FILL_RED:    gfx_eink_set_pixel(dx, dy, PIXEL_RED); break;
                 }
             }
-			
-			if((dx == 239) && (dy == 239))
-			{
-				 gfx_eink_set_pixel(dx, dy, PIXEL_WHITE);
-			}
         }
     }
 }

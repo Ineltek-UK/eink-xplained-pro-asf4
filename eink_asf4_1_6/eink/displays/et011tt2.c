@@ -75,7 +75,7 @@
  * Used to load the GFX config structure with ET011TT2 information and map
  * the display specific functions.
  */
-struct eink_gfx_config eink_gfx_et011tt2_config = { GFX_ET011TT2, GFX_ET011TT2_MAX_WIDTH, GFX_ET011TT2_MAX_HEIGHT, GFX_ET011TT2_DISPLAY_BUFFER_SIZE, ROTATE_0, 0, 0, eink_et011tt2_refresh_display_buffer, 0, 0, eink_et011tt2_put_display_buffer, 0, eink_et011tt2_set_pixel, eink_et011tt2_set_pixel_raw, eink_et011tt2_graphics_load_mono_image }; /*, eink_ed028tc1_graphics_load_4bgrey_image }; */
+struct eink_gfx_config eink_gfx_et011tt2_config = { GFX_ET011TT2, GFX_ET011TT2_MAX_WIDTH, GFX_ET011TT2_MAX_HEIGHT, GFX_ET011TT2_DISPLAY_BUFFER_SIZE, ROTATE_0, 0, 0, eink_et011tt2_refresh_display_buffer, 0, 0, eink_et011tt2_put_display_buffer, 0, eink_et011tt2_set_pixel, eink_et011tt2_set_pixel_raw, eink_et011tt2_graphics_load_mono_image, eink_et011tt2_graphics_load_2bgrey_image }; /*, eink_ed028tc1_graphics_load_4bgrey_image }; */
     
 /**
  * \brief Initialize UC8173 controller and Eink display.
