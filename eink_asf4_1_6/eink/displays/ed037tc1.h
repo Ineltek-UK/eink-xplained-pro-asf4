@@ -74,7 +74,7 @@
 #include <compiler.h>
 
 #include <eink/drivers/eink_driver.h>
-#include <eink/drivers/uc8159/uc8159.h>
+#include <eink/drivers/ssd1677/ssd1677.h>
 
 #include <eink/eink_gfx/eink_gfx.h>
 #include <eink/eink_gfx/eink_gfx_graphics.h>
