@@ -118,7 +118,7 @@ int main (void)
 	eink_ed037tc1_init(&eink_conf, false);
 		
 	gfx_eink_graphics_fill_screen_raw(0x3);
-	gfx_eink_load_4bgrey_image(eink_GSephElecLogo_2bGrey, sizeof(eink_GSephElecLogo_2bGrey), eink_GSephElecLogo_2bGrey_width_px, eink_GSephElecLogo_2bGrey_height_bytes, 60, 70);
+	
 	
 	eink_ed037tc1_put_display_buffer(true);
 	gpio_set_pin_level(EINK_X_LED_0_PIN, 1);
